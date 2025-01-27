@@ -1,5 +1,6 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
+import chatRoutes from './routes/chat';
 
 dotenv.config();
 
@@ -8,14 +9,11 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('EZ TYPESCRIPT PORCO DIO');
+app.get('/', (req, res) => {
+  res.send('ez typescript server siuum');
 });
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  res.status(500).send({ message: 'Something went wrong!', error: err.message });
-});
+app.use('/api/chat', chatRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
