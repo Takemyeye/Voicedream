@@ -7,7 +7,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
 });
 
-export const askChatGPT = async (message: string): Promise<string> => {
+export const askChatGPT = async (message: string) => {
   try {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo', // Use "gpt-3.5-turbo" if necessary
