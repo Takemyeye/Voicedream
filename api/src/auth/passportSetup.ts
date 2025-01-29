@@ -1,15 +1,17 @@
-import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { findOrCreateUser } from './authUtils';
 import { AppDataSource } from '../ormconfig';
 import { User } from '../entities/user';
+import passport from 'passport';
 import dotenv from 'dotenv';
 
 declare global {
   namespace Express {
     interface User {
-      id: number;
+      userId: number;
       username: string;
       email: string;
+      credit: number;
       avatar: string;
       provider: string;
       token: string;
@@ -28,29 +30,19 @@ passport.use(
     },
     async (accessToken: string, refreshToken: string, profile, done) => {
       try {
-        const { sub: id, name, email, picture } = profile._json || {};
+        const { name, email, picture } = profile._json || {};
 
-        
-        const user = new User();
-        const randomId = Math.floor(10000 + Math.random() * 90000);
-        user.id = randomId;
-        user.username = name || '';
-        user.email = email || '';
-        user.avatar = picture || '';
-        user.provider = 'google';
-        user.token = accessToken;
-
-        const userRepository = AppDataSource.getRepository(User);
-
-        let existingUser = await userRepository.findOne({
-          where: { id: user.id },
-        });
-
-        if (!existingUser) {
-          existingUser = await userRepository.save(user);
+        if (!email) {
+          return done(new Error('Email not provided by Google'));
         }
 
-        done(null, existingUser);
+        const user = await findOrCreateUser(email, 'google', {
+          username: name,
+          avatar: picture,
+          token: accessToken,
+        });
+
+        done(null, user);
       } catch (err) {
         done(err);
       }
@@ -59,13 +51,13 @@ passport.use(
 );
 
 passport.serializeUser((user: User, done) => {
-  done(null, user.id);
+  done(null, user.userId);
 });
 
-passport.deserializeUser(async (id: number, done) => {
+passport.deserializeUser(async (userId: number, done) => {
   try {
     const userRepository = AppDataSource.getRepository(User);
-    const user = await userRepository.findOne({ where: { id } });
+    const user = await userRepository.findOne({ where: { userId } });
 
     if (!user) {
       return done(new Error('User not found'), null);

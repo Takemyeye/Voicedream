@@ -1,18 +1,37 @@
 import express, { Request, Response } from 'express';
+import { getUserCredit, updateUserCredit } from '../story/service/userService';
+import { saveStory } from '../story/storiesRepository';
 import { askChatGPT } from '../gpt_api/gpt';
 
 const router = express.Router();
 
 router.post('/', async (req: Request, res: Response): Promise<void> => {
-  const { message } = req.body;
+  const { message, userId, min} = req.body;
 
-  if (!message) {
-        res.status(400).json({ error: 'Message is required' })
+  const credit = await getUserCredit(userId);
+  
+  if (!message || !userId || !min) {
+    res.status(400).json({ error: 'Message/UserId/Min is required' });
+    return;
+  }
+  
+  if(credit === null) {
+      res.status(404).json({ error: 'User not found' });
     return;
   }
 
+  if (credit < min) {
+      res.status(400).json({ error: 'Yours credit is not sufficent'});
+    return;
+  }
+
+  const characterCount: number = min * 130; // total characters
+
   try {
-    const reply = await askChatGPT(message);
+    const updatedCredit = credit - min;
+    const reply = await askChatGPT(message, characterCount);
+    await saveStory(reply, userId);
+    await updateUserCredit(userId, updatedCredit);
     res.json({ reply });
   } catch (error) {
     console.error(error);

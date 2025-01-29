@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number = 0;
+  userId: number = 0;
 
   @Column()
   username: string = '';
@@ -15,8 +15,12 @@ export class User {
   avatar: string = '';
 
   @Column()
+  credit: number = 0;
+
+  @Column()
   provider: string = '';
 
   @Column()
   token: string = '';
+
 }
