@@ -1,14 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class Stories {
+export class UserStory {
 @PrimaryGeneratedColumn('uuid')
-storyId: string;
+userStoryid: string;
 
 @Column()
 story: string;
 
-@Column({nullable: true})
+@Column()
 userId: string;
+
+@Column()
+voiceId: string;
 
 }

@@ -4,10 +4,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
-
-import authRoutes from './auth/auth';
-import chatRoutes from './routes/chat';
 import './auth/passportSetup';
+
+// Routes
+import chatRoutes from './routes/chat';
+import authRoutes from './auth/auth';
+import ttsRoutes from './routes/tts';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -25,7 +27,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  secret: process.env.SESSION_SECRET || 'excvgbnim',
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false },
@@ -48,8 +50,9 @@ app.get('/', (req, res) => {
   res.send('Server running');
 });
 
-app.use('/api/chat', chatRoutes);
+app.use('/api', chatRoutes);
 app.use('/api', authRoutes);
+app.use('/api', ttsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

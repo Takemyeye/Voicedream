@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 declare global {
   namespace Express {
     interface User {
-      userId: number;
+      userId: string;
       username: string;
       email: string;
       credit: number;
@@ -31,6 +31,7 @@ passport.use(
     async (accessToken: string, refreshToken: string, profile, done) => {
       try {
         const { name, email, picture } = profile._json || {};
+        console.log(profile._json);
 
         if (!email) {
           return done(new Error('Email not provided by Google'));
@@ -54,7 +55,7 @@ passport.serializeUser((user: User, done) => {
   done(null, user.userId);
 });
 
-passport.deserializeUser(async (userId: number, done) => {
+passport.deserializeUser(async (userId: string, done) => {
   try {
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({ where: { userId } });

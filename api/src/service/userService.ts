@@ -1,9 +1,9 @@
-import { AppDataSource } from '../../ormconfig';
-import { User } from '../../entities/user';
+import { AppDataSource } from '../ormconfig';
+import { User } from '../entities/user';
 
 // get credit from user 
 
-export const getUserCredit = async (userId: number): Promise<number | null> => {
+export const getUserCredit = async (userId: string): Promise<number | null> => {
   try {
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({ where: { userId } });
@@ -21,7 +21,7 @@ export const getUserCredit = async (userId: number): Promise<number | null> => {
 
 // update Credit after pay
 
-export const updateUserCredit = async (userId: number, updatedCredit: number): Promise<void> => {
+export const updateUserCredit = async (userId: string, updatedCredit: number): Promise<void> => {
   try {
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({ where: { userId } });

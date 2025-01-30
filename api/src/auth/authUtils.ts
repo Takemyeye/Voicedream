@@ -23,9 +23,8 @@ export const findOrCreateUser = async (
 
     if (!user) {
       user = new User();
-      user.userId = Math.floor(10000 + Math.random() * 90000);
       user.username = userData.username || 'Anonymous';
-      user.credit = 50;
+      user.credit = 0;
       user.email = email;
       user.avatar = userData.avatar || '';
       user.provider = provider;

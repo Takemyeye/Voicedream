@@ -1,17 +1,17 @@
 import express, { Request, Response } from 'express';
-import { getUserCredit, updateUserCredit } from '../story/service/userService';
+import { getUserCredit, updateUserCredit } from '../service/userService';
 import { saveStory } from '../story/storiesRepository';
-import { askChatGPT } from '../gpt_api/gpt';
+import { askChatGPT } from '../aiAPI/gpt';
 
 const router = express.Router();
 
-router.post('/', async (req: Request, res: Response): Promise<void> => {
+router.post('/chat', async (req: Request, res: Response): Promise<void> => {
   const { message, userId, min} = req.body;
 
   const credit = await getUserCredit(userId);
   
   if (!message || !userId || !min) {
-    res.status(400).json({ error: 'Message/UserId/Min is required' });
+    res.status(400).json({ error: 'Message/userId/Min is required' });
     return;
   }
   

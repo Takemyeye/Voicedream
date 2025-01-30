@@ -22,6 +22,7 @@ export const askChatGPT = async (message: string, characterCount: number) => {
     });
 
     const reply = response.choices[0].message.content ?? '';
+    
     return reply;
   } catch (error) {
     console.error('Error interacting with OpenAI API:', error);
