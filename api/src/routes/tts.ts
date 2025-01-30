@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+import { saveUserStory } from '../repositories/userStoryRepository';
 import { generateSpeech } from '../aiAPI/elevenLabs';
 import { saveAudioFile } from '../service/download';
 import { TTSController } from '../service/ttsControle';
@@ -9,7 +10,7 @@ dotenv.config();
 const router = express.Router();
 
 router.post('/tts', async (req: Request, res: Response) => {
-  const { storyId, userId } = req.body;
+  const { storyId, userId, voiceId } = req.body;
 
   if (!storyId || !userId) {
       res.status(400).json({ error: 'storyId e userId sono richieste' })
@@ -24,8 +25,10 @@ router.post('/tts', async (req: Request, res: Response) => {
       return;
     }
 
+    
     const audioData = await generateSpeech(story);
-
+        
+    saveUserStory(story, userId, voiceId);
     res.setHeader('Content-Type', 'audio/mp3');
     res.send(audioData);
 

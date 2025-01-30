@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { getUserCredit, updateUserCredit } from '../service/userService';
-import { saveStory } from '../story/storiesRepository';
+import { saveStory } from '../repositories/storiesRepository';
 import { askChatGPT } from '../aiAPI/gpt';
 
 const router = express.Router();
