@@ -7,6 +7,7 @@ import passport from 'passport';
 import './auth/passportSetup';
 
 // Routes
+import voiceRoutes from './routes/voice';
 import chatRoutes from './routes/chat';
 import authRoutes from './auth/auth';
 import ttsRoutes from './routes/tts';
@@ -50,6 +51,7 @@ app.get('/', (req, res) => {
   res.send('Server running');
 });
 
+app.use('/api', voiceRoutes);
 app.use('/api', chatRoutes);
 app.use('/api', authRoutes);
 app.use('/api', ttsRoutes);

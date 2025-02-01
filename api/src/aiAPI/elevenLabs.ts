@@ -24,7 +24,6 @@ export const generateSpeech = async (story: string): Promise<Buffer> => {
       }
     );
 
-    console.log('Response data:', response.data);
     return Buffer.from(response.data);
   } catch (error) {
     console.error('Error generating speech:', error);

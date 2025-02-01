@@ -1,12 +1,12 @@
 import { UserStory } from '../entities/userStory';
 import { AppDataSource } from '../ormconfig';
 
-export const saveUserStory = async (story: string, userId: string, voiceId: string) => {
+export const saveUserStory = async (userStoryId: string, userId: string, voiceId: string) => {
   const userStoryRepository = AppDataSource.getRepository(UserStory);
 
   const newUserStory = new (UserStory);
   // in questo caso salva solo testo della storia
-    newUserStory.story = story
+    newUserStory.id = userStoryId
     newUserStory.userId = userId
     newUserStory.voiceId = voiceId
 

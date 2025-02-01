@@ -12,27 +12,26 @@ const router = express.Router();
 router.post('/tts', async (req: Request, res: Response) => {
   const { storyId, userId, voiceId } = req.body;
 
-  if (!storyId || !userId) {
-      res.status(400).json({ error: 'storyId e userId sono richieste' })
+  if (!storyId || !userId || !voiceId) {
+      res.status(400).json({ error: 'story, user e voice sono richieste' })
     return;
   }
 
   try {
-    const story = await TTSController(storyId, userId);
+    const story = await TTSController(storyId, userId, voiceId);
 
     if (!story) {
         res.status(404).json({ error: 'errore durante ricerca di stria' })
       return;
     }
 
-    
     const audioData = await generateSpeech(story);
-        
-    saveUserStory(story, userId, voiceId);
+    const userStoryId = saveAudioFile(audioData);
+    
+    saveUserStory(userStoryId, userId, voiceId);
     res.setHeader('Content-Type', 'audio/mp3');
     res.send(audioData);
 
-    saveAudioFile(audioData);
   } catch (error) {
     console.error('Error generating speech:', error);
     res.status(500).json({ error: 'Failed to generate speech' });
