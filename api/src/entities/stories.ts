@@ -8,7 +8,10 @@ storyId: string;
 @Column()
 story: string;
 
-@Column({nullable: true})
+@Column()
 userId: string;
+
+@Column()
+default: boolean = false;
 
 }

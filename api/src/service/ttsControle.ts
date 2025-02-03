@@ -2,9 +2,7 @@ import { AppDataSource } from '../ormconfig';
 import { Stories } from '../entities/stories';
 import { Voice } from '../entities/voice';
 
-export const TTSController = async ( storyId: string, userId: string, voiceId: string) => {
-  
-  const id = voiceId;
+export const TTSController = async (storyId: string, userId: string, voiceId: string) => {
 
   if (!storyId || !userId) {
     return null;
@@ -13,15 +11,14 @@ export const TTSController = async ( storyId: string, userId: string, voiceId: s
   try {
     const storyRepository = AppDataSource.getRepository(Stories);
     const voiceRepository = AppDataSource.getRepository(Voice);
+
     const story = await storyRepository.findOne({ where: { userId, storyId } });
-    const voice = await voiceRepository.findOne({ where: {id}});
+    const voice = await voiceRepository.findOne({ where: { voiceId } });
 
-    if (!userId) {
-      return console.log('user: sbagliato');
-    }
-
-    console.log("voice:", voice?.id)
-    return story?.story, voice?.id;
+    console.log("voice:", story);
+    console.log("voice:", voice);
+    
+    return { story: story?.story, voiceId: voice?.voiceId };
   } catch (error) {
     console.error('Error fetching story:', error);
     return null;

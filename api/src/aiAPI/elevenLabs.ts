@@ -4,12 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
-const VOICE_ID = process.env.VOICE_ID;
 
-export const generateSpeech = async (story: string): Promise<Buffer> => {
+export const generateSpeech = async (story: string, voiceId: string): Promise<Buffer> => {
   try {
     const response = await axios.post(
-      `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
       {
         text: story,
         voice_settings: { stability: 0.5, similarity_boost: 0.8 },

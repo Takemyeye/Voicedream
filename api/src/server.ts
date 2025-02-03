@@ -11,6 +11,7 @@ import voiceRoutes from './routes/voice';
 import chatRoutes from './routes/chat';
 import authRoutes from './auth/auth';
 import ttsRoutes from './routes/tts';
+import writeData from './service/writeDataToDB';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -55,6 +56,8 @@ app.use('/api', voiceRoutes);
 app.use('/api', chatRoutes);
 app.use('/api', authRoutes);
 app.use('/api', ttsRoutes);
+
+app.use('/api', writeData);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

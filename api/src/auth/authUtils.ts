@@ -24,7 +24,7 @@ export const findOrCreateUser = async (
     if (!user) {
       user = new User();
       user.username = userData.username || 'Anonymous';
-      user.credit = 10;
+      user.credit = 50;
       user.email = email;
       user.avatar = userData.avatar || '';
       user.provider = provider;

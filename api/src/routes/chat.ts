@@ -6,12 +6,12 @@ import { askChatGPT } from '../aiAPI/gpt';
 const router = express.Router();
 
 router.post('/chat', async (req: Request, res: Response): Promise<void> => {
-  const { message, userId, min} = req.body;
+  const { story, userId, min, nameCharacters, place, numberCharacters, argument} = req.body;
 
   const credit = await getUserCredit(userId);
   
-  if (!message || !userId || !min) {
-    res.status(400).json({ error: 'Message/userId/Min is required' });
+  if (!story || !userId || !min) {
+      res.status(400).json({ error: 'Message/userId/Min is required' });
     return;
   }
   
@@ -25,11 +25,11 @@ router.post('/chat', async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
-  const characterCount: number = min * 130; // total characters
+  const characterCount: number = min * 150; // total words
 
   try {
     const updatedCredit = credit - min;
-    const reply = await askChatGPT(message, characterCount);
+    const reply = await askChatGPT(story, characterCount, nameCharacters, place, numberCharacters, argument);
     await saveStory(reply, userId);
     await updateUserCredit(userId, updatedCredit);
     res.json({ reply });

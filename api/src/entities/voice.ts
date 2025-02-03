@@ -1,14 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 @Entity()
 export class Voice {
-@PrimaryGeneratedColumn()
-id: string;
+@PrimaryColumn()
+voiceId: string;
 
 @Column()
 voiceName: string = 'Antonio';
 
 @Column()
 userId: string;
+
+@Column()
+default: boolean = false;
 
 }
