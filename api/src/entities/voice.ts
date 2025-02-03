@@ -9,7 +9,7 @@ voiceId: string;
 voiceName: string = 'Antonio';
 
 @Column()
-userId: string;
+userId: string = '';
 
 @Column()
 default: boolean = false;

@@ -11,6 +11,7 @@ import voiceRoutes from './routes/voice';
 import chatRoutes from './routes/chat';
 import authRoutes from './auth/auth';
 import ttsRoutes from './routes/tts';
+// salva db
 import writeData from './service/writeDataToDB';
 
 const app = express();
@@ -57,6 +58,7 @@ app.use('/api', chatRoutes);
 app.use('/api', authRoutes);
 app.use('/api', ttsRoutes);
 
+// salva dati alla db
 app.use('/api', writeData);
 
 app.listen(PORT, () => {
