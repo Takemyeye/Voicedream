@@ -44,7 +44,7 @@ router.post('/voice', async (req: Request, res: Response) => {
     const response = await axios.post(ELEVEN_LABS_VOICE_URL, form, { headers });
 
     const voiceId = response.data.voice_id;
-    saveVoice(userId, voiceName, voiceId);
+    saveVoice(voiceName, voiceId, userId );
 
     res.json({ message: 'Voice successfully registered', voiceId });
   } catch (error: any) {
