@@ -4,15 +4,17 @@
   "private": true,
   "dependencies": {
     "cra-template": "1.2.0",
+    "js-cookie": "^3.0.5",
     "react": "^19.0.0",
+    "react-app-rewired": "^2.2.1",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.1.5",
     "react-scripts": "5.0.1"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test"
   },
   "eslintConfig": {
     "extends": [

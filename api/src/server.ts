@@ -7,6 +7,7 @@ import passport from 'passport';
 import './auth/passportSetup';
 
 // Routes
+import currentUser from './user/currentUser';
 import voiceRoutes from './routes/voice';
 import chatRoutes from './routes/chat';
 import authRoutes from './auth/auth';
@@ -25,6 +26,7 @@ const corsOptions = {
   origin: 'http://localhost:3000',
   methods: '*',
   allowedHeaders: '*',
+  credentials: true
 };
 
 app.use(cors(corsOptions));
@@ -57,6 +59,7 @@ app.use('/api', voiceRoutes);
 app.use('/api', chatRoutes);
 app.use('/api', authRoutes);
 app.use('/api', ttsRoutes);
+app.use('/api', currentUser)
 
 // salva dati alla db
 app.use('/api', writeData);
