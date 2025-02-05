@@ -1,10 +1,13 @@
 import React from "react";
-import Header from "./components/header";
+import Header from "./header/header";
+import TopPanel from "./homeUnit/topPanel"
+import "@/styles/home.css";
 
 const Home = () => {
     return (
-        <main>
+        <main className="w-">
             <Header />
+            <TopPanel />
         </main>
     )
 }

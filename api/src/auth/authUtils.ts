@@ -21,12 +21,13 @@ export const findOrCreateUser = async (
       user.email = email;
       user.avatar = userData.avatar || '';
       user.provider = provider;
+      user.token = '';
     }
 
     await userRepository.save(user);
 
     return {
-      userId: "secret",
+      userId: user.userId,
       email: user.email,
       username: user.username,
       avatar: user.avatar,
