@@ -34,7 +34,7 @@ h2 {
 }
 h3 { 
     font-size: clamp(14px, 2vw, 18px);
-    color: rgb(225, 225, 225);
+    color: rgb(150, 150, 150);
     font-weight: 400;
 }
 h4 { 
@@ -46,6 +46,14 @@ h5 {
     font-size: clamp(10px, 2vw, 14px); 
     color: rgb(225, 225, 225);
     font-weight: 400; 
+}
+
+.text {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 a {

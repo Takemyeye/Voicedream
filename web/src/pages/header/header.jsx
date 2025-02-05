@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useLocation, Link } from "react-router-dom";
+import '@/styles/header.css';
 
 const Header = () => {
     const [token, setToken] = useState(null);
@@ -35,7 +36,7 @@ const Header = () => {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
-                },
+                }
             });
 
             if (response.ok) {
@@ -50,25 +51,25 @@ const Header = () => {
     };
 
     return (
-        <header className="w-full h-[10vh] flex flex-row items-center justify-around bg-[#1D1D1D]">
-            <Link to="/" className="text-white text-2xl font-semibold">
-                <h1>VoiceDream</h1>
+        <header>
+            <Link to="/">
+                <h1 style={{color: "whitesmoke"}}>VoiceDream</h1>
             </Link>
-            <nav className="w-[300px] h-full flex flex-row items-center justify-between">
-                <h3 className="text-gray-300 relative cursor-pointer hover:text-white hover:after:w-full">Home</h3>
-                <h3 className="text-gray-300 relative cursor-pointer hover:text-white hover:after:w-full">About</h3>
-                <h3 className="text-gray-300 relative cursor-pointer hover:text-white hover:after:w-full">Speach</h3>
-                <h3 className="text-gray-300 relative cursor-pointer hover:text-white hover:after:w-full">Story</h3>
-                <h3 className="text-gray-300 relative cursor-pointer hover:text-white hover:after:w-full">Profile</h3>
+            <nav>
+                <Link to="/"><h3>Home</h3></Link>
+                <Link to="/about"><h3>About</h3></Link>
+                <Link to="/speech"><h3>Speech</h3></Link>
+                <Link to="/story"><h3>Story</h3></Link>
+                <Link to="/profile"><h3>Profile</h3></Link>
             </nav>
-            <div className="flex items-center">
+            <div className="container">
                 <div className="user">
                     {user ? (
                         <div className="user">
-                            <img className="w-10 h-10 rounded-full border border-white/25" src={user.avatar} alt="User" />
+                            <img src={user.avatar} alt="User" />
                         </div>
                     ) : (
-                        <button onClick={() => window.location = "http://localhost:3001/api/google"} className="bg-transparent text-white border-2 border-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-colors">Sign In</button>
+                        <button onClick={() => window.location = "http://localhost:3001/api/google"}>Sign In</button>
                     )}
                 </div>
             </div>
