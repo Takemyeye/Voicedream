@@ -21,7 +21,6 @@ export const findOrCreateUser = async (
       user.email = email;
       user.avatar = userData.avatar || '';
       user.provider = provider;
-      user.token = '';
     }
 
     await userRepository.save(user);
@@ -33,8 +32,8 @@ export const findOrCreateUser = async (
       avatar: user.avatar,
       provider: user.provider,
       credit: user.credit,
-      token: user.token
     };
+    
   } catch (error) {
     console.error('Error in findOrCreateUser:', error);
     throw new Error('Database error');

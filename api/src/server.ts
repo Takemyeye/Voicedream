@@ -12,6 +12,8 @@ import voiceRoutes from './routes/voice';
 import chatRoutes from './routes/chat';
 import authRoutes from './auth/auth';
 import ttsRoutes from './routes/tts';
+import getStoryRoutes from './repositories/default/default';
+
 // salva db
 import writeData from './service/writeDataToDB';
 
@@ -41,7 +43,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 AppDataSource.initialize()
   .then(() => {
@@ -55,11 +57,12 @@ app.get('/', (req, res) => {
   res.send('Server running');
 });
 
+app.use('/api', currentUser);
 app.use('/api', voiceRoutes);
 app.use('/api', chatRoutes);
 app.use('/api', authRoutes);
 app.use('/api', ttsRoutes);
-app.use('/api', currentUser)
+app.use('/api', getStoryRoutes);
 
 // salva dati alla db
 app.use('/api', writeData);

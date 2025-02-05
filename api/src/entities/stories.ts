@@ -6,10 +6,10 @@ export class Stories {
 storyId: string;
 
 @Column()
-story: string;
+story: string = 'default';
 
 @Column()
-userId: string = '';
+userId: string = 'default';
 
 @Column()
 default: boolean = false;

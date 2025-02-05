@@ -4,7 +4,6 @@ import { AppDataSource } from '../ormconfig';
 import { User } from '../entities/user';
 import passport from 'passport';
 import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
 
 declare global {
   namespace Express {
@@ -15,14 +14,11 @@ declare global {
       credit: number;
       avatar: string;
       provider: string;
-      token: string;
     }
   }
 }
 
 dotenv.config();
-
-const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
 passport.use(
   new GoogleStrategy(
@@ -43,16 +39,6 @@ passport.use(
           username: name,
           avatar: picture,
         });
-
-        const token = jwt.sign(
-          { email: user.email, provider: user.provider },
-          JWT_SECRET,
-          { expiresIn: '7d' }
-        );
-
-        user.token = token;
-
-        user = await AppDataSource.getRepository(User).save(user);
 
         done(null, user);
       } catch (err) {

@@ -20,7 +20,4 @@ credit: number;
 @Column()
 provider: string;
 
-@Column()
-token: string = 'хуй';
-
 }
