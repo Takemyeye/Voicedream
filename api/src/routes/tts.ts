@@ -4,13 +4,16 @@ import { saveUserStory } from '../repositories/userStoryRepository';
 import { generateSpeech } from '../aiAPI/elevenLabs';
 import { saveAudioFile } from '../service/download';
 import { TTSController } from '../service/ttsControle';
+import { verifyTokenAndGetUser } from '../utils/tokenUtils';
 
 dotenv.config();
 
 const router = express.Router();
 
 router.post('/tts', async (req: Request, res: Response) => {
-  const { storyId, userId, voiceId } = req.body;
+  const { storyId, token, voiceId } = req.body;
+
+  const userId = await verifyTokenAndGetUser(token);
 
   if (!storyId || !userId || !voiceId) {
     res.status(400).json({ error: 'story, user e voice sono richieste' });

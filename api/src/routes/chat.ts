@@ -7,21 +7,15 @@ import { verifyTokenAndGetUser } from '../utils/tokenUtils';
 const router = express.Router();
 
 router.post('/chat', async (req: Request, res: Response) => {
-  const { story, token, min, nameCharacters, place, numberCharacters, argument } = req.body;
+  const { title, token, min, nameCharacters, place, numberCharacters, argument } = req.body;
   
-  const user = await verifyTokenAndGetUser(token);
-  const userId = user;
+  const userId = await verifyTokenAndGetUser(token);
   
   try {
-    
-    if (!user) {
-      res.status(404).json({ error: 'User not found' });
-      return;
-    }
 
     const credit = await getUserCredit(userId);
 
-    if (!story || !min) {
+    if (!title || !min) {
       res.status(400).json({ error: 'Story and min are required' });
       return;
     }
@@ -39,9 +33,9 @@ router.post('/chat', async (req: Request, res: Response) => {
     const characterCount: number = min * 150;
 
     const updatedCredit = credit - min;
-    const reply = await askChatGPT(story, characterCount, nameCharacters, place, numberCharacters, argument);
+    const reply = await askChatGPT(title, characterCount, nameCharacters, place, numberCharacters, argument);
     
-    await saveStory(reply, userId);
+    await saveStory(reply, userId, title, min, argument, place);
     await updateUserCredit(userId, updatedCredit);
 
     res.json({ reply });

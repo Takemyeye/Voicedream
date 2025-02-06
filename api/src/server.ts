@@ -57,12 +57,12 @@ app.get('/', (req, res) => {
   res.send('Server running');
 });
 
+app.use('/api', getStoryRoutes);
 app.use('/api', currentUser);
 app.use('/api', voiceRoutes);
 app.use('/api', chatRoutes);
 app.use('/api', authRoutes);
 app.use('/api', ttsRoutes);
-app.use('/api', getStoryRoutes);
 
 // salva dati alla db
 app.use('/api', writeData);

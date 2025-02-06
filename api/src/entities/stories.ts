@@ -12,6 +12,18 @@ story: string = 'default';
 userId: string = 'default';
 
 @Column()
+title: string;
+
+@Column()
+min: number;
+
+@Column({nullable: true})
+argument?: string;
+
+@Column({nullable: true})
+place?: string;
+
+@Column()
 default: boolean = false;
 
 }

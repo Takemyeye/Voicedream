@@ -7,8 +7,7 @@ const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
 interface DecodedToken extends JwtPayload {
-  email: string;
-  provider: string;
+  userId: string
 }
 
 router.get('/current_user', async (req, res) => {
@@ -26,7 +25,7 @@ router.get('/current_user', async (req, res) => {
 
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({
-      where: { email: decoded.email, provider: decoded.provider },
+      where: { userId: decoded.userId },
     });
 
     if (!user) {

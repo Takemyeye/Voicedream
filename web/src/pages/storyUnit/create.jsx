@@ -1,28 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Cookies from "js-cookie";
 
 const Create = () => {
-  const [story, setStory] = useState("");
-  const [token, setToken] = useState(null);
-  const [min, setMin] = useState("");
-  const [nameCharacters, setNameCharacters] = useState("");
-  const [place, setPlace] = useState("");
   const [numberCharacters, setNumberCharacters] = useState("");
-  const [argument, setArgument] = useState("");
+  const [nameCharacters, setNameCharacters] = useState("");
+  const [token] = useState(Cookies.get("token"));
   const [response, setResponse] = useState(null);
-
-  useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      setToken(token);
-    }
-  }, []);
-
+  const [argument, setArgument] = useState("");
+  const [title, setTitle] = useState("");
+  const [place, setPlace] = useState("");
+  const [min, setMin] = useState("");
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const requestBody = {
-      story,
+      title,
       token,
       min: Number(min),
       nameCharacters,
@@ -42,7 +35,6 @@ const Create = () => {
       });
 
       const data = await res.json();
-
       setResponse(data.reply);
     } catch (err) {
           setResponse(null);
@@ -58,8 +50,8 @@ const Create = () => {
         <input
           type="text"
           placeholder="Story"
-          value={story}
-          onChange={(e) => setStory(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           required
         />
         <input

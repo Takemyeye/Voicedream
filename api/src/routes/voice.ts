@@ -15,8 +15,7 @@ const ELEVEN_LABS_VOICE_URL = "https://api.elevenlabs.io/v1/voices/add";
 router.post("/voice", async (req: Request, res: Response) => {
     const { token, voiceName, audioData } = req.body;
     
-    const user = await verifyTokenAndGetUser(token);
-    const userId = user;
+    const userId = await verifyTokenAndGetUser(token);
 
     try {
 
@@ -50,7 +49,7 @@ router.post("/voice", async (req: Request, res: Response) => {
       const elevenLabsData = elevenLabsResponse.data;
       const voiceId = elevenLabsData.voice_id;
 
-      const userVoiceDir = path.join(__dirname, "..", "userVoice");
+      const userVoiceDir = path.join(__dirname, "userVoice");
       if (!fs.existsSync(userVoiceDir)) {
         fs.mkdirSync(userVoiceDir, { recursive: true });
       }
