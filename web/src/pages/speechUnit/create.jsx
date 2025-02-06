@@ -12,43 +12,44 @@ const Create = () => {
   const startRecording = () => {
     setIsRecording(true);
     navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then((stream) => {
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorderRef.current = mediaRecorder;
-        const chunks = [];
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+            const mediaRecorder = new MediaRecorder(stream, {mimeType: "audio/webm"});
+            mediaRecorderRef.current = mediaRecorder;
+            const chunks = [];
   
-        mediaRecorder.ondataavailable = (event) => {
-          chunks.push(event.data);
-        };
+            mediaRecorder.ondataavailable = (event) => {
+                chunks.push(event.data);
+            };
   
-        mediaRecorder.onstop = () => {
-          const blob = new Blob(chunks, { type: "audio/mp3" });
-          const audioUrl = URL.createObjectURL(blob);
-          setAudioData(blob);
-          audioRef.current.src = audioUrl;
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunks, { type: "audio/webm" });
+                const audioUrl = URL.createObjectURL(blob);
+                setAudioData(blob);
+                audioRef.current.src = audioUrl;
   
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const base64Audio = reader.result.split(',')[1];
-            console.log("Base64 Audio Data:", base64Audio);
-            setAudioData(base64Audio);
-          };
-          reader.readAsDataURL(blob);
-        };
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64Audio = reader.result.split(',')[1];
+                    console.log("Base64 Audio Data:", base64Audio);
+                    setAudioData(base64Audio);
+                };
+                reader.readAsDataURL(blob);
+            };
   
-        mediaRecorder.start();
-        setTimeout(() => {
-          if (mediaRecorder.state !== "inactive") {
-            mediaRecorder.stop();
-            setIsRecording(false);
-          }
-        }, 30000);
-      })
-      .catch((err) => {
-        console.error("Error accessing microphone", err);
-      });
-  };  
+            mediaRecorder.start();
+            setTimeout(() => {
+                if (mediaRecorder.state !== "inactive") {
+                    mediaRecorder.stop();
+                    setIsRecording(false);
+                }
+            }, 30000);
+        })
+        .catch((err) => {
+            console.error("Error accessing microphone", err);
+        });
+};
+
 
   const stopRecording = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
