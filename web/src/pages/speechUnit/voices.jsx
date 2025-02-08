@@ -30,20 +30,18 @@ const Voices = () => {
         fetchVoices();
     }, [token]);
 
-    const handlePlayVoice = (voiceId) => {
-        const audio = new Audio(`http://localhost:3001/voice/${voiceId}`);
-        audio.play().catch((err) => console.error("Error playing audio:", err));
-    };
-
     return (
-        <div className="speaches">
-            {voices.map((voice) => (
-                <div key={voice.voiceId}>
-                    <button onClick={() => handlePlayVoice(voice.voiceId)}>
-                        Play {voice.voiceName}
-                    </button>
-                </div>
-            ))}
+        <div className="voices">
+             {voices.length > 0 ? (
+                voices.map((voices, index) => (
+                    <div className="voice" key={index}>
+                        <p>{index + 1}</p>
+                        <p>{voices.voiceId}</p>
+                    </div>
+                ))
+            ) : (
+                <p>0 storie</p>
+            )}
         </div>
     );
 };

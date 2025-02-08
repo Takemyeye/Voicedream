@@ -10,7 +10,7 @@ interface DecodedToken extends JwtPayload {
 
 export const verifyTokenAndGetUser = async (token: string) => {
   if (!token) {
-    throw new Error('Token is required');
+    return;
   }
 
   try {
@@ -22,11 +22,12 @@ export const verifyTokenAndGetUser = async (token: string) => {
     });
 
     if (!user) {
-      throw new Error('User not found');
+      return;
     }
 
     return user.userId;
   } catch (error) {
-    throw new Error('Token verification failed');
+    console.error(error)
+    return;
   }
 };

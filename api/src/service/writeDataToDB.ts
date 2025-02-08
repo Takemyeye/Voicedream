@@ -6,11 +6,6 @@ const router = express.Router();
 router.post('/save', async (req: Request, res: Response): Promise<void> => {
   const { userId, voiceId, voiceName } = req.body;
 
-  if (!userId || !voiceId || !voiceName) {
-    res.status(400).json({ error: 'userId, voiceId, and voiceName are required' });
-    return;
-  }
-
   try {
     const response = await saveVoice(voiceName, voiceId, userId);
 

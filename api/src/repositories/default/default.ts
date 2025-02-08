@@ -90,18 +90,5 @@ router.get('/getVoice', async (req, res) => {
     }
 });
 
-router.get('/voice/:voiceId', (req, res) => {
-    const { voiceId } = req.params;
-    const userVoiceDir = path.join(__dirname, "../..", "userVoice");
-    const audioFilePath = path.join(userVoiceDir, `${voiceId}.mp3`);
-
-    if (fs.existsSync(audioFilePath)) {
-        res.setHeader('Content-Type', 'audio/mp3');
-        res.sendFile(audioFilePath);
-    } else {
-        res.status(404).json({ error: 'Audio file not found' });
-    }
-});
-
 export default router;
 

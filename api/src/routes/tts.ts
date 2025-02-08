@@ -5,6 +5,8 @@ import { generateSpeech } from '../aiAPI/elevenLabs';
 import { saveAudioFile } from '../service/download';
 import { TTSController } from '../service/ttsControle';
 import { verifyTokenAndGetUser } from '../utils/tokenUtils';
+import fs from 'fs';
+import path from 'path';
 
 dotenv.config();
 
@@ -28,12 +30,20 @@ router.post('/tts', async (req: Request, res: Response) => {
       return;
     }
 
-    console.log('result:', result);
-
     const audioData = await generateSpeech(result?.story, result.voiceId);
+
+    const userStoryDir = path.join(__dirname, '../..', 'userStory');
+    if (!fs.existsSync(userStoryDir)) {
+      fs.mkdirSync(userStoryDir);
+    }
+
     const userStoryId = saveAudioFile(audioData);
-    
+    const audioFilePath = path.join(userStoryDir, `${userStoryId}.mp3`);
+
+    fs.writeFileSync(audioFilePath, audioData);
+
     saveUserStory(userStoryId, userId, result.voiceId, storyId);
+
     res.setHeader('Content-Type', 'audio/mp3');
     res.send(audioData);
   } catch (error) {

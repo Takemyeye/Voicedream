@@ -24,6 +24,6 @@ argument?: string;
 place?: string;
 
 @Column()
-default: boolean = false;
+default: boolean = true;
 
 }

@@ -11,6 +11,11 @@ router.post('/chat', async (req: Request, res: Response) => {
   
   const userId = await verifyTokenAndGetUser(token);
   
+  if(!userId) {
+    res.status(400).json({ error: "User not found" })
+    return;
+  }
+  
   try {
 
     const credit = await getUserCredit(userId);
