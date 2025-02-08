@@ -6,6 +6,7 @@ import './app.css';
 import Home from './pages/home';
 import Story from './pages/story';
 import Speech from './pages/voice';
+import VoiceDream from './pages/voiceDream';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route exact path='/' element={<Home />} />
         <Route exact path='/story' element={<Story />} />
         <Route exact path='/speech' element={<Speech />} />
+        <Route exact path='/create' element={<VoiceDream />} />
       </Routes>
     </Router>
   );

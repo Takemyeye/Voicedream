@@ -23,7 +23,6 @@ router.get('/getStory', async (req, res) => {
     try {
         const userRepository = AppDataSource.getRepository(Stories);
         const stories = await userRepository.find({
-            select: ["story", "title"],
             where: [
             { default: true },
             { userId: userId }

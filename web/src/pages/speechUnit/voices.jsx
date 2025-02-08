@@ -40,7 +40,7 @@ const Voices = () => {
                     </div>
                 ))
             ) : (
-                <p>0 storie</p>
+                <p>0 voices</p>
             )}
         </div>
     );
