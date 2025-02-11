@@ -3,7 +3,7 @@ import React from "react";
 // styles
 import "../../style/userBlock.css"
 
-const UserBlock = () => {
+const UserBlock = ({user}) => {
 
     return( 
         <>
@@ -12,8 +12,12 @@ const UserBlock = () => {
                 <h5>Manage your account and explore your journey</h5>
             </div>
             <div className="block">
-                <div className="user-block">
-                    <div className="principal"></div>
+                <div className="principal">
+                    <img src={user.avatar} alt="avatar" />
+                    <div className="user-data">
+                        <h2>{user.username}</h2>
+                        <h5>{user.email}</h5>
+                    </div>
                 </div>
             </div>
         </>

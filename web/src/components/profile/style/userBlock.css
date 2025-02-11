@@ -8,10 +8,37 @@
 }
 
 .block {
-    width: 100%;
+    width: calc(100% - 4rem);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.050);
+    border-radius: 8px;
+    padding: 2rem;
     gap: 1rem;
+}
+
+.principal {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.principal > img {
+    width: 60px;
+    height: 60px;
+    border-radius: 5rem;
+}
+
+.user-data {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
 }
