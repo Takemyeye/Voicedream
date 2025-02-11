@@ -2,16 +2,14 @@ import React from "react";
 import { DropContainer } from "./dropUnit/drop-container";
 import { faUser, faCreditCard } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import Cookies from "js-cookie";
+import { useUser } from "@/context/UserContext"; 
 
 // styles
 import "../style/dropDown.css";
 
 export function DropDown () {
+    const { logOut } = useUser();
 
-    const LogOut = () => {
-        Cookies.remove("token");
-    }
     return(
         <div className="drop-panel">
             <DropContainer 
@@ -25,7 +23,7 @@ export function DropDown () {
             />
             <DropContainer
                 link={"/"}
-                onClick={LogOut}
+                onClick={logOut}
                 text="LogOut"
                 fontAwesome={faArrowRightFromBracket}
             />

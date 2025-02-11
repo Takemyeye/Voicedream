@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { useUser } from "../../context/UserContext";
 import UserHeader from "./unit/user";
 import Navigation from './unit/nav';
 import { useLocation } from "react-router-dom";
+import { useUser } from "@/context/UserContext"; 
 import Cookies from "js-cookie";
 import "./style/header.css";
 

@@ -1,10 +1,13 @@
 import React from "react";
+import { Principal } from "./principal";
 
 // styles
 import "../../style/userBlock.css"
+import { Secondary } from "./secondary";
 
 const UserBlock = ({user}) => {
-
+    if(!user) {return}
+    
     return( 
         <>
             <div className="text">
@@ -12,14 +15,10 @@ const UserBlock = ({user}) => {
                 <h5>Manage your account and explore your journey</h5>
             </div>
             <div className="block">
-                <div className="principal">
-                    <img src={user.avatar} alt="avatar" />
-                    <div className="user-data">
-                        <h2>{user.username}</h2>
-                        <h5>{user.email}</h5>
-                    </div>
-                </div>
-            </div>
+               <Principal user={user}/>
+               <Secondary text="Name" data={user.username} className="secondary username-input" />
+               <Secondary text="Email" data={user.email} className="secondary email-input" />
+               </div>
         </>
     )
 }
