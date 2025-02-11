@@ -30,25 +30,38 @@ router.post('/tts', async (req: Request, res: Response) => {
       return;
     }
 
-    const audioData = await generateSpeech(result?.story, result.voiceId);
+    const audioData = await generateSpeech(result.story, result.voiceId);
 
     const userStoryDir = path.join(__dirname, '../..', 'userStory');
     if (!fs.existsSync(userStoryDir)) {
-      fs.mkdirSync(userStoryDir);
+      fs.mkdirSync(userStoryDir, { recursive: true });
     }
 
     const userStoryId = saveAudioFile(audioData);
-    const audioFilePath = path.join(userStoryDir, `${userStoryId}.mp3`);
 
+    const audioFilePath = path.join(userStoryDir, `${userStoryId}.mp3`);
+    
     fs.writeFileSync(audioFilePath, audioData);
 
     saveUserStory(userStoryId, userId, result.voiceId, storyId);
 
-    res.setHeader('Content-Type', 'audio/mp3');
-    res.send(audioData);
+    res.status(200).json({ fileId: userStoryId });
   } catch (error) {
     console.error('Error generating speech:', error);
     res.status(500).json({ error: 'Failed to generate speech' });
+  }
+});
+
+router.get('/audio/:fileId', async (req: Request, res: Response) => {
+  const { fileId } = req.params;
+  const userStoryDir = path.join(__dirname, '../..', 'userStory');
+  const audioFilePath = path.join(userStoryDir, `${fileId}.mp3`);
+
+  if (fs.existsSync(audioFilePath)) {
+    res.setHeader('Content-Type', 'audio/mp3');
+    fs.createReadStream(audioFilePath).pipe(res);
+  } else {
+    res.status(404).json({ error: 'File not found' });
   }
 });
 

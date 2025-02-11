@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import VoiceList from "./components/voiceList";
+import StoryList from "./components/storyList";
 
 const Static = () => {
     const [token] = useState(Cookies.get("token"));
     const [voices, setVoices] = useState([]);
     const [stories, setStories] = useState([]);
+    const [selectedVoiceId, setSelectedVoiceId] = useState(null);
+    const [selectedStoryId, setSelectedStoryId] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [audioUrl, setAudioUrl] = useState(null);
 
     useEffect(() => {
         const fetchVoices = async () => {
@@ -57,48 +64,81 @@ const Static = () => {
     }, [token]);
 
     const handleVoiceClick = (voiceId) => {
-        console.log("Voice ID:", voiceId);
+        setSelectedVoiceId(voiceId);
     };
 
     const handleStoryClick = (storyId) => {
-        console.log("Story ID:", storyId);
+        setSelectedStoryId(storyId);
+    };
+
+    const handleCreateClick = async () => {
+        if (!selectedVoiceId || !selectedStoryId) {
+            alert("Please select both a voice and a story.");
+            return;
+        }
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const res = await fetch("http://localhost:3001/api/tts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    token: token,
+                    voiceId: selectedVoiceId,
+                    storyId: selectedStoryId,
+                }),
+            });
+
+            if (!res.ok) {
+                throw new Error(`Failed to create: ${res.status}`);
+            }
+
+            const data = await res.json();
+            const fileId = data.fileId;
+
+            const audioRes = await fetch(`http://localhost:3001/api/audio/${fileId}`);
+
+            if (!audioRes.ok) {
+                throw new Error(`Failed to fetch audio: ${audioRes.status}`);
+            }
+
+            const audioBlob = await audioRes.blob();
+            setAudioUrl(URL.createObjectURL(audioBlob));
+
+        } catch (err) {
+            console.error("Error creating TTS:", err);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="static">
-            {voices.length > 0 ? (
-                voices.map((voice, index) => (
-                    <div 
-                        className="voice" 
-                        key={index} 
-                        onClick={() => handleVoiceClick(voice.voiceId)}
-                        style={{ cursor: "pointer" }}
-                    >
-                        <p>{index + 1}</p>
-                        <p>{voice.voiceId}</p>
-                    </div>
-                ))
-            ) : (
-                <p>0 voices</p>
-            )}
+            <VoiceList voices={voices} onVoiceClick={handleVoiceClick} />
+            <StoryList stories={stories} onStoryClick={handleStoryClick} />
             
-            {stories.length > 0 ? (
-                stories.map((story, index) => (
-                    <div 
-                        className="story" 
-                        key={index} 
-                        onClick={() => handleStoryClick(story.storyId)}
-                        style={{ cursor: "pointer" }}
-                    >
-                        <p>{index + 1}</p>
-                        <p>{story.story}</p>
-                    </div>
-                ))
-            ) : (
-                <p>0 stories</p>
-            )}
+            <div>
+                {selectedVoiceId && <p>Selected Voice ID: {selectedVoiceId}</p>}
+                {selectedStoryId && <p>Selected Story ID: {selectedStoryId}</p>}
+            </div>
+            
+            <div>
+                <button onClick={handleCreateClick} disabled={loading}>
+                    {loading ? "Creating..." : "Create TTS"}
+                </button>
+                {error && <p style={{ color: "red" }}>Error: {error}</p>}
+            </div>
+
+            <div>
+                {audioUrl && <audio controls src={audioUrl} />}
+            </div>
         </div>
     );
-}
+};
 
 export default Static;

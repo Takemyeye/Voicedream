@@ -12,11 +12,8 @@ export const TTSController = async (storyId: string, userId: string, voiceId: st
     const storyRepository = AppDataSource.getRepository(Stories);
     const voiceRepository = AppDataSource.getRepository(Voice);
 
-    const story = await storyRepository.findOne({ where: { userId, storyId } });
+    const story = await storyRepository.findOne({ where: { storyId, userId } });
     const voice = await voiceRepository.findOne({ where: { voiceId } });
-
-    console.log("voice:", story);
-    console.log("voice:", voice);
     
     return { story: story?.story, voiceId: voice?.voiceId };
   } catch (error) {

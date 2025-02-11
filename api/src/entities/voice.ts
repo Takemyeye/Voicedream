@@ -6,7 +6,7 @@ export class Voice {
 voiceId: string;
 
 @Column()
-voiceName: string = 'Antonio';
+voiceName: string = '';
 
 @Column()
 userId: string = '';

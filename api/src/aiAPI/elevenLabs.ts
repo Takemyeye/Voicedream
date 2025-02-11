@@ -12,7 +12,7 @@ export const generateSpeech = async (story: string, voiceId: string): Promise<Bu
       {
         text: story,
         voice_settings: { stability: 0.5, similarity_boost: 0.8 },
-        model_id: "eleven_multilingual_v2" // model
+        model_id: "eleven_multilingual_v2"
       },
       {
         headers: {
@@ -25,7 +25,7 @@ export const generateSpeech = async (story: string, voiceId: string): Promise<Bu
 
     return Buffer.from(response.data);
   } catch (error) {
-    console.error('Error generating speech:', error);
+    console.error('Error generating speech asidnas:');
     throw new Error('Failed to generate speech');
   }
 };

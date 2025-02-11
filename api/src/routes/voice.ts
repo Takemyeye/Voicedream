@@ -1,49 +1,46 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { saveVoice } from "../repositories/voiceRepository";
 import dotenv from "dotenv";
 import axios from "axios";
 import path from "path";
 import fs from "fs";
 import FormData from "form-data";
-import { verifyTokenAndGetUser } from '../utils/tokenUtils';
+import multer from "multer";
+import { verifyTokenAndGetUser } from "../utils/tokenUtils";
 
 dotenv.config();
 const router = express.Router();
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 const ELEVEN_LABS_VOICE_URL = "https://api.elevenlabs.io/v1/voices/add";
 
-router.post("/voice", async (req: Request, res: Response) => {
-    const { token, voiceName, voiceId } = req.body;
+// PATH User Voice
+const userVoiceDir = path.join(__dirname, "../../userVoice");
+if (!fs.existsSync(userVoiceDir)) {
+    fs.mkdirSync(userVoiceDir, { recursive: true });
+}
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+router.post("/voice", upload.single("audio"), async (req, res) => {
+    const { token, voiceName } = req.body;
+    const audioFile = req.file;
 
     const userId = await verifyTokenAndGetUser(token);
-    
-    if(!userId) {
-      res.status(400).json({ error: "User not found" })
-      return;
-    }
-    
-    if (!voiceId || !voiceName) {
-        res.status(400).json({ error: "VoiceId and VoiceName are required" });
+    if (!userId) {
+        res.status(400).json({ error: "User not found" });
         return;
     }
-    
-    const userVoiceDir = path.join(__dirname, "../..", "voices");
-    const voiceFilePath = path.join(userVoiceDir, `${voiceId}.mp3`);
-    
-    console.log("Voice file path:", voiceFilePath);
-    
-    if (!fs.existsSync(voiceFilePath)) {
-        res.status(404).json({ error: "Voice file not found" });
-        return;
-    }
-    
-    try {
-        const audioBuffer = fs.readFileSync(voiceFilePath);
-        console.log("Audio buffer size:", audioBuffer.length);
 
+    if (!voiceName || !audioFile) {
+        res.status(400).json({ error: "Voice name and audio file are required" });
+        return;
+    }
+
+    try {
         const form = new FormData();
         form.append("name", voiceName);
-        form.append("files", audioBuffer, { filename: `${voiceId}.mp3` });
+        form.append("files", audioFile.buffer, { filename: audioFile.originalname });
         form.append("remove_background_noise", "false");
         form.append("description", "Custom AI Voice");
 
@@ -52,14 +49,15 @@ router.post("/voice", async (req: Request, res: Response) => {
             "xi-api-key": ELEVENLABS_API_KEY,
         };
 
-        const elevenLabsResponse = await axios.post(ELEVEN_LABS_VOICE_URL, form, {
-            headers: headers,
-        });
-
-        console.log("Eleven Labs response:", elevenLabsResponse.data);
-
+        const elevenLabsResponse = await axios.post(ELEVEN_LABS_VOICE_URL, form, { headers });
         const elevenLabsData = elevenLabsResponse.data;
+
+        console.log("elevenlabs data:" ,elevenLabsData);
+
         const newVoiceId = elevenLabsData.voice_id;
+
+        const newFilePath = path.join(userVoiceDir, `${newVoiceId}.mp3`);
+        fs.writeFileSync(newFilePath, audioFile.buffer);
 
         saveVoice(voiceName, newVoiceId, userId);
 
