@@ -14,7 +14,7 @@ const Notification = () => {
     return (
         <>
             <div className="text">
-                <h1>Notifications</h1>
+                <h2>Notifications</h2>
             </div>
             <div className="block">
                 <Ntt 

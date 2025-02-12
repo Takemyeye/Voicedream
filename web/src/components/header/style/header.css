@@ -9,4 +9,5 @@ header {
     gap: 20%;
     backdrop-filter: blur(8px);
     position: sticky;
+    top: 0;
 }

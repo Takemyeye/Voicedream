@@ -1,3 +1,4 @@
+import { UiBadge } from "@/ui/badge";
 import React from "react";
 
 export function Principal ({user}) {
@@ -9,6 +10,7 @@ export function Principal ({user}) {
             <div className="user-data">
                 <h2>{user.username}</h2>
                 <h5>{user.email}</h5>
+                <UiBadge className="badge3" text="Verificated"/>
             </div>
         </div>
     )

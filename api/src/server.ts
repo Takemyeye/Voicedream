@@ -7,12 +7,13 @@ import passport from 'passport';
 import './auth/passportSetup';
 
 // Routes
+import getStoryRoutes from './repositories/default/default';
+import getComponent from './routes/get/getComponent';
 import currentUser from './user/currentUser';
 import voiceRoutes from './routes/voice';
 import chatRoutes from './routes/chat';
 import authRoutes from './auth/auth';
 import ttsRoutes from './routes/tts';
-import getStoryRoutes from './repositories/default/default';
 
 // salva db
 /*
@@ -61,6 +62,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', getStoryRoutes);
+app.use('/api', getComponent);
 app.use('/api', currentUser);
 app.use('/api', voiceRoutes);
 app.use('/api', chatRoutes);

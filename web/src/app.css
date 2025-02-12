@@ -30,7 +30,7 @@ main {
     border-radius: 4px;
 }
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgb(20, 20, 20);
 }
 
 h1 { 

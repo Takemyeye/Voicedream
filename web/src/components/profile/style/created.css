@@ -1,0 +1,34 @@
+.story-block {
+    width: calc(100% - 1rem - 2px);
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    gap: 1rem;
+    border: 1px solid rgba(245, 245, 245, 0.3);
+    overflow: hidden;
+    white-space: wrap;
+    text-overflow: ellipsis;
+    border-radius: 4px;
+}
+
+.story-block h5 {
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    word-spacing: .1em;
+    white-space: pre-line;
+}
+
+.splide.is-initialized {
+    width: 95%;
+}
+
+.splide__arrow--prev {
+    left: -2rem;
+}
+
+.splide__arrow--next {
+    right: -2rem;
+}

@@ -16,7 +16,7 @@ const UserBlock = ({user}) => {
             </div>
             <div className="block">
                <Principal user={user}/>
-               <Secondary text="Name" data={user.username} className="secondary username-input" />
+               <Secondary text="Name" data={user.username} className="secondary email-input" />
                <Secondary text="Email" data={user.email} className="secondary email-input" />
             </div>
         </>
