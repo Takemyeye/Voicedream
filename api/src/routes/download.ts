@@ -1,4 +1,3 @@
-/* 
 import express from "express";
 import path from "path";
 import fs from "fs";
@@ -19,9 +18,15 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-router.post("/api/upload", upload.single("file"), (req, res) => {
-  res.send("File uploaded successfully");
+router.post("/upload", upload.single("audio"), (req, res) => {
+  if (!req.file) {
+    res.status(400).json({ message: "No file uploaded" });
+    return;
+  }
+  res.json({ message: "File uploaded successfully" });
 });
 
+
 export default router;
+/* 
 */

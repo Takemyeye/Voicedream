@@ -1,22 +1,22 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { UserProvider } from "./context/UserContext";
 import './app.css';
+
 // Routes
-import Home from './components/home/home';
-import Login from './components/login/login';
-import Profile from './components/profile/profile';
+import Home from './pages/home';
+import Story from './pages/story';
+import Speech from './pages/voice';
+import VoiceDream from './pages/voiceDream';
 
 function App() {
   return (
     <Router>
-      <UserProvider>
-        <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/login' element={<Login/>} />
-          <Route exact path='/profile' element={<Profile />} />
-        </Routes>
-      </UserProvider>
+      <Routes>
+        <Route exact path='/' element={<Home />} />
+        <Route exact path='/story' element={<Story />} />
+        <Route exact path='/speech' element={<Speech />} />
+        <Route exact path='/create' element={<VoiceDream />} />
+      </Routes>
     </Router>
   );
 }

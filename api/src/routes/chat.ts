@@ -7,7 +7,7 @@ import { verifyTokenAndGetUser } from '../utils/tokenUtils';
 const router = express.Router();
 
 router.post('/chat', async (req: Request, res: Response) => {
-  const { title, token, min, nameCharacters, place, numberCharacters, argument } = req.body;
+  const { title, token, min, nameCharacters, place, numberCharacters, argument, script } = req.body;
   
   const userId = await verifyTokenAndGetUser(token);
   
@@ -35,10 +35,10 @@ router.post('/chat', async (req: Request, res: Response) => {
       return;
     }
 
-    const characterCount: number = min * 150;
+    const wordCount: number = min * 150;
 
     const updatedCredit = credit - min;
-    const reply = await askChatGPT(title, characterCount, nameCharacters, place, numberCharacters, argument);
+    const reply = await askChatGPT(title, wordCount, nameCharacters, place, numberCharacters, argument, script);
     
     await saveStory(reply, userId, title, min, argument, place);
     await updateUserCredit(userId, updatedCredit);

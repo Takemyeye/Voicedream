@@ -18,8 +18,8 @@ import ttsRoutes from './routes/tts';
 // salva db
 /*
 import writeData from './service/writeDataToDB';
-import audioRoutes from "./routes/download";
 */
+import audioRoutes from "./routes/download";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -72,8 +72,8 @@ app.use('/api', ttsRoutes);
 // salva dati alla db
 /* 
 app.use('/api', writeData);
-app.use('/api', audioRoutes);
 */
+app.use('/api', audioRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
