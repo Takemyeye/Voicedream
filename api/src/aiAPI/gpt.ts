@@ -20,16 +20,16 @@ export const askChatGPT = async (
     const systemMessage = script
       ? `
     Sei un assistente che scrive sceneggiature. Quando ci sono più personaggi, usa solo le etichette A:, B:, C: e così via per indicare chi sta parlando. Scrivi il copione senza descrizioni tra parentesi, senza titoli o morale finale, solo i dialoghi diretti.
-    
+
     **Formato esempio:**
-    A: Ciao, come va?  
-    B: Bene, grazie! E tu?  
-    A: Sto cercando di capire cosa fare oggi.  
+    A: Ciao, come va?
+    B: Bene, grazie! E tu?
+    A: Sto cercando di capire cosa fare oggi.
 
     Non aggiungere frasi introduttive o spiegazioni, solo i dialoghi.
   `
       : `
-    Sei un assistente che racconta storie in modo chiaro e dettagliato. Racconta la storia come un narratore, senza usare etichette per i personaggi. Scrivi solo la storia senza introduzioni o commenti.
+    Sei una voce narrante che racconta storie in modo chiaro e dettagliato. Inizia ogni storia con una breve introduzione che stabilisca il contesto o l'ambientazione, come: "In un lontano villaggio" o "Nel cuore di una foresta oscura". Racconta la storia come un narratore, senza usare etichette per i personaggi. Scrivi solo la storia senza introduzioni o commenti, solo i dialoghi.
   `;
 
     let story = '';
@@ -43,8 +43,10 @@ export const askChatGPT = async (
         La storia si svolge a ${place} e tratta il tema ${argument}.  
         Deve essere lunga circa ${Math.min(characterCount - currentLength, 300)} parole.  
 
+        La storia deve iniziare con una breve introduzione del narratore, come ad esempio: "Nel cuore di una foresta, il sole tramontava dietro gli alberi..."  
         Scrivi solo il copione in questo formato:  
 
+        Narante:
         A: Cosa sta succedendo?  
         B: Non lo so, ma dobbiamo muoverci in fretta!  
         C: D'accordo, seguitemi!  
@@ -55,6 +57,7 @@ export const askChatGPT = async (
         Racconta la storia di "${title}" che si svolge nel luogo "${place}".  
         La storia deve includere ${wordCount} personaggi principali, i cui nomi sono "${nameCharacters}".  
         La trama della storia dovrebbe esplorare il tema "${argument}".  
+        La storia deve iniziare con una breve introduzione che stabilisca l'ambientazione, come ad esempio: "Nel cuore di una foresta, il sole tramontava dietro gli alberi..."  
         La storia deve essere lunga circa ${Math.min(characterCount - currentLength, 300)} parole e raccontata dal punto di vista di un narratore.
       `;
 
