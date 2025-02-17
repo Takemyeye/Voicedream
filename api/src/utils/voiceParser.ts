@@ -1,0 +1,28 @@
+  type ParserEntry = {
+    character: string;
+    line: string;
+  };
+  
+  type Voice = {
+    characterName: string;
+    voiceId: string;
+  };
+  
+  export class VoiceIdUpdater {
+    private voices: Voice[];
+  
+    constructor(voices: Voice[]) {
+      this.voices = voices;
+    }
+  
+    public updateParserWithVoiceIds(parser: ParserEntry[]): ParserEntry[] {
+      return parser.map(entry => {
+        const matchingVoice = this.voices.find(voice => voice.characterName === entry.character);
+        if (matchingVoice) {
+          entry.character = matchingVoice.voiceId;
+        }
+        return entry;
+      });
+    }
+  }
+  

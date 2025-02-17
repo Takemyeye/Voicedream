@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { TTSController } from '../service/ttsControle';
 import { verifyTokenAndGetUser } from '../utils/tokenUtils';
 import { separateStory } from '../utils/storyParser';
+import { VoiceIdUpdater } from '../utils/voiceParser';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -22,18 +23,21 @@ router.post('/ttsScript', async (req: Request, res: Response) => {
   try {
     const result = await TTSController(storyId, userId);
 
-    if(!result) {
-        res.status(404).json({ error: "Result no va bene"});
-        return;
+    if(!result || !result?.story) {
+      res.status(404).json({ error: "Result not found" });
+      return;
     }
 
     console.log("result:", result);
-
+    
     const parser = separateStory(result.story || '');
 
-    console.log("parser:", parser);
+    const voiceIdUpdater = new VoiceIdUpdater(voices);
+    const updatedParser = voiceIdUpdater.updateParserWithVoiceIds(parser);
+    
+    console.log("Updated parser:", updatedParser);
 
-    res.status(200).json({ message: 'Speech generation process started for all selected voices' });
+    res.status(200).json({ message: 'Speech generation process started for all selected voices', updatedParser });
 
   } catch (error) {
     console.error('Error generating speech:', error);
