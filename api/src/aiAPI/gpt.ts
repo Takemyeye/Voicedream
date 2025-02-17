@@ -22,9 +22,9 @@ export const askChatGPT = async (
     Sei un assistente che scrive sceneggiature. Quando ci sono più personaggi, usa solo le etichette A:, B:, C: e così via per indicare chi sta parlando. Scrivi il copione senza descrizioni tra parentesi, senza titoli o morale finale, solo i dialoghi diretti.
 
     **Formato esempio:**
-    A: Ciao, come va?
-    B: Bene, grazie! E tu?
-    A: Sto cercando di capire cosa fare oggi.
+    Nome1: Ciao, come va?
+    Nome2: Bene, grazie! E tu?
+    Nome3: Sto cercando di capire cosa fare oggi.
 
     Non aggiungere frasi introduttive o spiegazioni, solo i dialoghi.
   `
@@ -36,7 +36,7 @@ export const askChatGPT = async (
     let currentLength = 0;
 
     // Loop to generate parts of the story until it reaches the desired character count
-    while (currentLength < characterCount) {
+    while (currentLength <= characterCount) {
       const userMessage = script
         ? `
         Scrivi una sceneggiatura per una storia con ${wordCount} personaggi: ${nameCharacters}.  
@@ -47,9 +47,9 @@ export const askChatGPT = async (
         Scrivi solo il copione in questo formato:  
 
         Narante:
-        A: Cosa sta succedendo?  
-        B: Non lo so, ma dobbiamo muoverci in fretta!  
-        C: D'accordo, seguitemi!  
+        Nome1: Cosa sta succedendo?  
+        Nome2: Non lo so, ma dobbiamo muoverci in fretta!  
+        Nome3: D'accordo, seguitemi!  
 
         Non usare parentesi, non aggiungere descrizioni o titoli.
       `
@@ -71,7 +71,9 @@ export const askChatGPT = async (
 
       const part = response.choices[0].message.content ?? '';
       story += part;
+      console.log("story:", story);
       currentLength += part.length;
+      console.log("lengh:", currentLength);
     }
 
     return story;

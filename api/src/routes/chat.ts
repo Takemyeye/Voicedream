@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import { getUserCredit, updateUserCredit } from '../service/userService';
 import { saveStory } from '../repositories/storiesRepository';
-import { askChatGPT } from '../aiAPI/gpt';
 import { verifyTokenAndGetUser } from '../utils/tokenUtils';
+import { askChatGPT } from '../aiAPI/gpt';
 
 const router = express.Router();
 
@@ -35,12 +35,12 @@ router.post('/chat', async (req: Request, res: Response) => {
       return;
     }
 
-    const wordCount: number = min * 150;
+    const characterCount: number = min * 750;
 
     const updatedCredit = credit - min;
-    const reply = await askChatGPT(title, wordCount, nameCharacters, place, numberCharacters, argument, script);
+    const reply = await askChatGPT(title, characterCount, nameCharacters, place, numberCharacters, argument, script);
     
-    await saveStory(reply, userId, title, min, argument, place);
+    await saveStory(reply, userId, title, min, argument, place, numberCharacters, nameCharacters);
     await updateUserCredit(userId, updatedCredit);
 
     res.json({ reply });

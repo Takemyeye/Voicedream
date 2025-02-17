@@ -38,7 +38,7 @@ router.post('/tts', async (req: Request, res: Response) => {
     }
 
     const userStoryId = saveAudioFile(audioData);
-
+    
     const audioFilePath = path.join(userStoryDir, `${userStoryId}.mp3`);
     
     fs.writeFileSync(audioFilePath, audioData);

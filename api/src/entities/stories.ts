@@ -23,6 +23,12 @@ argument?: string;
 @Column({nullable: true})
 place?: string;
 
+@Column({nullable: true})
+count?: number;
+
+@Column({nullable: true})
+names?: string;
+
 @Column()
 default: boolean = false;
 
