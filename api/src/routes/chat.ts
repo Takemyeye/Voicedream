@@ -38,7 +38,7 @@ router.post('/chat', async (req: Request, res: Response) => {
     const characterCount: number = min * 750;
 
     const updatedCredit = credit - min;
-    const reply = await askChatGPT(title, characterCount, nameCharacters, place, numberCharacters, argument, script);
+    const reply = await askChatGPT(title, characterCount, nameCharacters, place, numberCharacters, argument, script, min);
     
     await saveStory(reply, userId, title, min, argument, place, numberCharacters, nameCharacters);
     await updateUserCredit(userId, updatedCredit);

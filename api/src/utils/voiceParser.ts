@@ -20,6 +20,8 @@
         const matchingVoice = this.voices.find(voice => voice.characterName === entry.character);
         if (matchingVoice) {
           entry.character = matchingVoice.voiceId;
+        } else {
+          entry.character = "Antonio"; 
         }
         return entry;
       });

@@ -24,8 +24,9 @@ export const generateSpeech = async (story: string, voiceId: string): Promise<Bu
     );
 
     return Buffer.from(response.data);
-  } catch (error) {
-    console.error('Error generating speech asidnas:');
+  } catch (error: any) {
+    console.error('Error generating speech for voiceId:', voiceId);
+    console.error('Error details:', error.response ? error.response.data : error.message);
     throw new Error('Failed to generate speech');
   }
 };

@@ -16,8 +16,6 @@ import authRoutes from './auth/auth';
 import ttsRoutes from './routes/tts';
 
 // salva db
-/*
-*/
 import writeData from './service/writeDataToDB';
 import audioRoutes from "./routes/download";
 import testTTS from './routes/ttsScript';
@@ -71,8 +69,6 @@ app.use('/api', authRoutes);
 app.use('/api', ttsRoutes);
 
 // salva dati alla db
-/* 
-*/
 app.use('/api', audioRoutes);
 app.use('/api', writeData);
 app.use('/api', testTTS);

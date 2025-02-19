@@ -19,6 +19,7 @@ export const TTSController = async (storyId: string, userId: string, voiceId?: s
       voice = await voiceRepository.findOne({ where: { voiceId } });
     }
 
+
     return { story: story?.story, voiceId: voice?.voiceId };
   } catch (error) {
     console.error('Error fetching story:', error);

@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 const Modal = ({ story, onClose }) => {
   const [voices, setVoices] = useState([]);
   const [selectedVoices, setSelectedVoices] = useState({});
+  const [selectedVoiceId, setSelectedVoiceId] = useState(""); // Store the selected voiceId
+  const [extraData, setExtraData] = useState(null); // Store additional data here
 
   const fetchVoices = async () => {
     try {
@@ -20,7 +22,7 @@ const Modal = ({ story, onClose }) => {
       });
 
       const voiceData = await voiceResponse.json();
-      console.log("Voices fetched:", voiceData);  // Логируем полученные голоса
+      console.log("Voices fetched:", voiceData);
       setVoices(voiceData.voices);
     } catch (error) {
       console.error("Error fetching voices:", error.message);
@@ -28,10 +30,15 @@ const Modal = ({ story, onClose }) => {
   };
 
   const handleVoiceChange = (name, voiceId) => {
+    // Log the selected voiceId to the console
+    console.log("Selected Voice ID:", voiceId);
+
     setSelectedVoices((prevSelectedVoices) => ({
       ...prevSelectedVoices,
       [name]: voiceId,
     }));
+
+    setSelectedVoiceId(voiceId); // Update the selected voiceId
   };
 
   const handleSubmitVoices = async () => {
@@ -42,13 +49,12 @@ const Modal = ({ story, onClose }) => {
         throw new Error("Token or storyId is missing");
       }
 
-      // Формируем данные для отправки
       const selectedVoicesData = Object.entries(selectedVoices).map(([name, voiceId]) => ({
         characterName: name,
         voiceId: voiceId,
       }));
 
-      console.log("Submitting voices:", selectedVoicesData); // Логируем, что отправляем на сервер
+      console.log("Submitting voices:", selectedVoicesData);
 
       if (selectedVoicesData.length > 0) {
         const response = await fetch("http://localhost:3001/api/ttsScript", {
@@ -60,12 +66,12 @@ const Modal = ({ story, onClose }) => {
           body: JSON.stringify({
             storyId: storyId,
             token: token,
-            voices: selectedVoicesData, // Отправляем массив объектов с именами и voiceId
+            voices: selectedVoicesData,
           }),
         });
 
         const result = await response.json();
-        console.log("Server response:", result); // Логируем ответ сервера
+        console.log("Server response:", result);
 
         if (result.fileId) {
           console.log("File generated:", result.fileId);
@@ -75,6 +81,38 @@ const Modal = ({ story, onClose }) => {
       }
     } catch (error) {
       console.error("Error submitting voices:", error.message);
+    }
+  };
+
+  const fetchExtraData = async () => {
+    try {
+        const token = Cookies.get("token");
+        const storyId = story.storyId;
+        if (!token || !storyId) {
+          throw new Error("Token or storyId is missing");
+        }
+
+      // Log the voiceId before making the request
+      console.log("Submitting Voice ID to server:", selectedVoiceId);
+
+      const response = await fetch("http://localhost:3001/api/tts", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          storyId: storyId,
+          token: token,
+          voiceId: selectedVoiceId, // Pass selected voiceId
+        }),
+      });
+
+      const data = await response.json();
+      console.log("Extra data fetched:", data);
+      setExtraData(data);
+    } catch (error) {
+      console.error("Error fetching extra data:", error.message);
     }
   };
 
@@ -92,13 +130,6 @@ const Modal = ({ story, onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>{story.title}</h2>
-        <p>{story.story}</p>
-
-        {story.argument && <p><strong>Argument:</strong> {story.argument}</p>}
-        {story.place && <p><strong>Place:</strong> {story.place}</p>}
-        {story.count && <p><strong>Count:</strong> {story.count}</p>}
-
         {story.names && (
           <div>
             <h3>Names</h3>
@@ -125,7 +156,19 @@ const Modal = ({ story, onClose }) => {
         <div>
           {voices.length > 0 ? (
             voices.map((voice, index) => (
-              <div key={index}>
+              <div
+                key={index}
+                onClick={() => {
+                  console.log(`Voice clicked: ${voice.voiceId}`);
+                  setSelectedVoiceId(voice.voiceId);
+                }}
+                style={{
+                  cursor: "pointer",
+                  padding: "10px",
+                  margin: "5px",
+                  backgroundColor: selectedVoiceId === voice.voiceId ? "lightgray" : "white",
+                }}
+              >
                 <p>{voice.voiceName}</p>
               </div>
             ))
@@ -135,8 +178,32 @@ const Modal = ({ story, onClose }) => {
         </div>
 
         <button onClick={onClose}>Close</button>
-        <button onClick={handleSubmitVoices}>Submit Voices</button>
       </div>
+
+      {story.count < 2 ? (
+        <div className="modal-content">
+          <h1>{story.title}</h1>
+          {story.argument && <p><strong>Argument:</strong> {story.argument}</p>}
+          {story.place && <p><strong>Place:</strong> {story.place}</p>}
+          {story.count && <p><strong>Count:</strong> {story.count}</p>}
+          <button onClick={fetchExtraData}>VoiceDream</button>
+
+          {extraData && (
+            <div>
+              <h3>Extra Data:</h3>
+              <p>{JSON.stringify(extraData)}</p>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="modal-content">
+          <h1>{story.title}</h1>
+          {story.argument && <p><strong>Argument:</strong> {story.argument}</p>}
+          {story.place && <p><strong>Place:</strong> {story.place}</p>}
+          {story.count && <p><strong>Count:</strong> {story.count}</p>}
+          <button onClick={handleSubmitVoices}>VoiceDream</button>
+        </div>
+      )}
     </div>
   );
 };
