@@ -28,7 +28,7 @@ dotenv.config();
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: ['http://88.99.39.233', 'http://88.99.39.233'],
   methods: '*',
   allowedHeaders: '*',
   credentials: true

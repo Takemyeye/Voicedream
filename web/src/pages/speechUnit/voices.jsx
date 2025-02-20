@@ -8,7 +8,7 @@ const Voices = () => {
     useEffect(() => {
         const fetchVoices = async () => {
             try {
-                const res = await fetch(`http://localhost:3001/api/getVoice`, {
+                const res = await fetch(`http://88.99.39.233/api/getVoice`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
