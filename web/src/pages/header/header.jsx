@@ -60,7 +60,7 @@ const Header = () => {
                 <Link to="/"><h3>About</h3></Link>
                 <Link to="/speech"><h3>Speech</h3></Link>
                 <Link to="/story"><h3>Story</h3></Link>
-                <Link to="/"><h3>Profile</h3></Link>
+                <Link to="/create"><h3>VoiceDream</h3></Link>
             </nav>
             <div className="container">
                 <div className="user">
