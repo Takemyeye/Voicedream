@@ -48,6 +48,11 @@ h5 {
     font-weight: 400; 
 }
 
+input {
+    padding: 4px;
+    font-size: 1rem;
+}
+
 .text {
     width: 100%;
     display: flex;

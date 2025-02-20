@@ -12,12 +12,15 @@ username: string;
 email: string;
 
 @Column()
-avatar: string;
+avatar: string = "";
 
 @Column()
-credit: number;
+credit: number = 50;
 
 @Column()
 provider: string;
+
+@Column()
+password?: string;
 
 }

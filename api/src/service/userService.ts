@@ -2,7 +2,6 @@ import { AppDataSource } from '../ormconfig';
 import { User } from '../entities/user';
 
 // get credit from user 
-
 export const getUserCredit = async (userId: string): Promise<number | null> => {
   try {
     const userRepository = AppDataSource.getRepository(User);

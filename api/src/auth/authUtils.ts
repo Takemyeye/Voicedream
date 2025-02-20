@@ -4,11 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const findOrCreateUser = async (
-  email: string,
-  provider: string,
-  userData: Partial<User>
-) => {
+export const findOrCreateUser = async (email: string, provider: string, userData: Partial<User>) => {
   try {
     const userRepository = AppDataSource.getRepository(User);
 
@@ -17,13 +13,12 @@ export const findOrCreateUser = async (
     if (!user) {
       user = new User();
       user.username = userData.username || 'Anonymous';
-      user.credit = 50;
       user.email = email;
       user.avatar = userData.avatar || '';
       user.provider = provider;
+      
+      await userRepository.save(user);
     }
-
-    await userRepository.save(user);
 
     return {
       userId: user.userId,
