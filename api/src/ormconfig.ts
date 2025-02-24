@@ -3,6 +3,9 @@ import { UserStory } from './entities/userStory';
 import { Stories } from './entities/stories';
 import { Voice } from './entities/voice';
 import { User } from './entities/user';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
