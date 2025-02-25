@@ -11,7 +11,7 @@ const Voices = () => {
     useEffect(() => {
         const fetchVoices = async () => {
             try {
-                const res = await fetch(`https://cp.voicedream.space/api/getVoice`, {
+                const res = await fetch(`http://localhost:3001/api/getVoice`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

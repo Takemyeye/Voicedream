@@ -9,6 +9,7 @@
 
   // Routes
   import getStoryRoutes from './repositories/default/default';
+  import dashboardRoutes from './routes/dashboardAdmin';
   import getComponent from './routes/get/getComponent';
   import currentUser from './user/currentUser';
   import voiceRoutes from './routes/voice';
@@ -32,7 +33,7 @@ app.use('/userStory', express.static(path.join(__dirname, 'userStory')));
   app.use(express.urlencoded({ extended: true }));
 
   const corsOptions = {
-    origin: ['https://cp.voicedream.space', 'http://localhost:3000'],
+    origin: ['http://localhost:3001', 'http://localhost:3000'],
     methods: '*',
     allowedHeaders: '*',
     credentials: true
@@ -71,6 +72,9 @@ app.use('/userStory', express.static(path.join(__dirname, 'userStory')));
   app.use('/api', chatRoutes);
   app.use('/api', authRoutes);
   app.use('/api', ttsRoutes);
+
+  // admin
+  app.use('/api', dashboardRoutes);
 
   // salva dati alla db
   app.use('/api', audioRoutes);

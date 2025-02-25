@@ -9,9 +9,6 @@ interface DecodedToken extends JwtPayload {
 }
 
 export const verifyTokenAndGetUser = async (token: string) => {
-  if (!token) {
-    return;
-  }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
