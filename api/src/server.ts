@@ -20,10 +20,11 @@ import writeData from './service/writeDataToDB';
 import audioRoutes from "./routes/download";
 import testTTS from './routes/ttsScript';
 
+dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-dotenv.config();
 
 app.use(express.urlencoded({ extended: true }));
 
