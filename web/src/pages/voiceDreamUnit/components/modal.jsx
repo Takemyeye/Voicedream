@@ -4,8 +4,8 @@ import Cookies from "js-cookie";
 const Modal = ({ story, onClose }) => {
   const [voices, setVoices] = useState([]);
   const [selectedVoices, setSelectedVoices] = useState({});
-  const [selectedVoiceId, setSelectedVoiceId] = useState(""); // Store the selected voiceId
-  const [extraData, setExtraData] = useState(null); // Store additional data here
+  const [selectedVoiceId, setSelectedVoiceId] = useState("");
+  const [extraData, setExtraData] = useState(null);
 
   const fetchVoices = async () => {
     try {
@@ -92,7 +92,6 @@ const Modal = ({ story, onClose }) => {
           throw new Error("Token or storyId is missing");
         }
 
-      // Log the voiceId before making the request
       console.log("Submitting Voice ID to server:", selectedVoiceId);
 
       const response = await fetch("http://loaclhost:3001/api/tts", {
@@ -104,7 +103,7 @@ const Modal = ({ story, onClose }) => {
         body: JSON.stringify({
           storyId: storyId,
           token: token,
-          voiceId: selectedVoiceId, // Pass selected voiceId
+          voiceId: selectedVoiceId,
         }),
       });
 
@@ -154,7 +153,7 @@ const Modal = ({ story, onClose }) => {
 
         <h3>Voices</h3>
         <div>
-          {voices.length > 0 ? (
+          {voices.length >= 0 ? (
             voices.map((voice, index) => (
               <div
                 key={index}

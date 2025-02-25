@@ -69,7 +69,7 @@ const Header = () => {
                             <img src={user.avatar} alt="User" />
                         </div>
                     ) : (
-                        <button onClick={() => window.location = "http://loaclhost:3000/auth"}>Sign In</button>
+                        <button onClick={() => window.location = "http://localhost:3000/auth"}>Sign In</button>
                     )}
                 </div>
             </div>
