@@ -9,7 +9,7 @@ const Stories = () => {
     useEffect(() => {
         const fetchStories = async () => {
             try {
-                const res = await fetch(`http://88.99.39.233/api/getStory`, {
+                const res = await fetch(`http://localhost:3001/api/getStory`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

@@ -34,7 +34,7 @@ const Auth = () => {
     const endpoint = isLogin ? "/signin" : "/signup";
 
     try {
-      const response = await fetch(`http://88.99.39.233/api${endpoint}`, {
+      const response = await fetch(`http://localhost:3001/api${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
