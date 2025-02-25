@@ -4,13 +4,14 @@ services:
     image: nginx:latest
     restart: always
     ports:
-      - "80:80"
+      - "443:443"
     depends_on:
       - web
       - api
     volumes:
       - ./lib/.nginx/nginx.conf:/etc/nginx/nginx.conf
-
+      - ./lib/.nginx/fullchain.pem:/etc/nginx/fullchain.pem
+      - ./lib/.nginx/privkey.pem:/etc/nginx/privkey.pem
   web:
     container_name: web
     build: ./web
