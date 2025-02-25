@@ -32,7 +32,7 @@ const Header = () => {
 
     const fetchCurrentUser = async (token) => {
         try {
-            const response = await fetch("http://88.99.39.233/api/current_user", {
+            const response = await fetch("http://localhost:3001/api/current_user", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -69,7 +69,7 @@ const Header = () => {
                             <img src={user.avatar} alt="User" />
                         </div>
                     ) : (
-                        <button onClick={() => window.location = "http://88.99.39.233/auth"}>Sign In</button>
+                        <button onClick={() => window.location = "http://localhost:3000/auth"}>Sign In</button>
                     )}
                 </div>
             </div>

@@ -10,4 +10,15 @@
 
 .story {
     width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.story pre {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word; 
 }
