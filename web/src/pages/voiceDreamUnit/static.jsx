@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Modal from "./components/modal"; 
+import StoryDream from "./components/storyDream";
 
 const Static = () => {
   const [stories, setStories] = useState([]);
@@ -15,7 +16,7 @@ const Static = () => {
         throw new Error("Token not found");
       }
 
-      const storyResponse = await fetch("https://cp.voicedream.space/api/getStory", {
+      const storyResponse = await fetch("http://loaclhost:3001/api/getStory", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -68,6 +69,7 @@ const Static = () => {
       {selectedStory && (
         <Modal story={selectedStory} onClose={closeModal} />
       )}
+      <StoryDream />
     </div>
   );
 };

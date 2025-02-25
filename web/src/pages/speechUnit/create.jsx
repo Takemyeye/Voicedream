@@ -61,7 +61,7 @@ const Create = () => {
     formData.append("audio", audioFile);
 
     try {
-      const response = await fetch("https://cp.voicedream.space/api/voice", {
+      const response = await fetch("http://loaclhost:3001/api/voice", {
         method: "POST",
         body: formData,
       });
