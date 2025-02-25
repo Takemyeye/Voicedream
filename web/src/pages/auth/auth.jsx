@@ -34,7 +34,7 @@ const Auth = () => {
     const endpoint = isLogin ? "/signin" : "/signup";
 
     try {
-      const response = await fetch(`http://loaclhost:3001/api${endpoint}`, {
+      const response = await fetch(`https://cp.voicedream.space/api${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -93,6 +93,7 @@ const Auth = () => {
         {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
         <button type="submit">{isLogin ? "Log In" : "Sign Up"}</button>
       </form>
+      <button style={{marginTop: "2rem"}} onClick={() => window.location = "https://cp.voicedream.space/api/google"}>LogIn with google</button>
     </div>
   );
 };

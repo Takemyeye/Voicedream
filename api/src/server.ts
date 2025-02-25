@@ -32,7 +32,7 @@ app.use('/userStory', express.static(path.join(__dirname, 'userStory')));
   app.use(express.urlencoded({ extended: true }));
 
   const corsOptions = {
-    origin: ['', 'http://localhost:3000'],
+    origin: ['https://cp.voicedream.space', 'http://localhost:3000'],
     methods: '*',
     allowedHeaders: '*',
     credentials: true

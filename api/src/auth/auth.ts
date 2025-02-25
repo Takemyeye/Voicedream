@@ -20,7 +20,7 @@ router.get(
         { expiresIn: '7d' }
       );
 
-      res.redirect(`http://88.99.39.233?token=${token}`);
+      res.redirect(`https://cp.voicedream.space?token=${token}`);
     } else {
       res.status(500).json({ error: 'User not found' });
     }
