@@ -32,7 +32,7 @@ const Header = () => {
 
     const fetchCurrentUser = async (token) => {
         try {
-            const response = await fetch("http://localhost:3001/api/current_user", {
+            const response = await fetch("https://cp.voicedream.space/api/current_user", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -69,7 +69,7 @@ const Header = () => {
                             <img src={user.avatar} alt="User" />
                         </div>
                     ) : (
-                        <button onClick={() => window.location = "http://localhost:3000/auth"}>Sign In</button>
+                        <button onClick={() => window.location = "https://cp.voicedream.space/auth"}>Sign In</button>
                     )}
                 </div>
             </div>

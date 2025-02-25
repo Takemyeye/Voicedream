@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: ['http://88.99.39.233', 'http://localhost:3000'],
+  origin: ['http://88.99.39.233', 'https://cp.voicedream.space'],
   methods: '*',
   allowedHeaders: '*',
   credentials: true
