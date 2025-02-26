@@ -9,7 +9,7 @@ const StoryDream = () => {
 
   const fetchAudioFiles = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/audio", {
+      const response = await fetch("https://cp.voicedream.space/api/audio", {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -46,7 +46,7 @@ const StoryDream = () => {
             <h3>File {index + 1}</h3>
             <audio ref={(el) => (audioRefs.current[index] = el)} controls>
               <source
-                src={`http://localhost:3001/api/audio/${file.id}`}
+                src={`https://cp.voicedream.space/api/audio/${file.id}`}
                 type="audio/mp3"
               />
             </audio>

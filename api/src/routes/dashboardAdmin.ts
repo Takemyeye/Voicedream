@@ -7,7 +7,6 @@ dotenv.config();
 
 const admin = process.env.ADMIN_ID;
 
-console.log(admin);
 const router = express.Router();
 
 router.get('/dashboard', async (req, res) => {
@@ -19,8 +18,6 @@ router.get('/dashboard', async (req, res) => {
     }
 
     const userId = await verifyTokenAndGetUser(token);
-
-    console.log("userId:", userId)
 
     if (!userId) { 
         res.status(404).json({ error: "User not found" });

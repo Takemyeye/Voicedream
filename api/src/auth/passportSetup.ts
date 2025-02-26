@@ -25,7 +25,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      callbackURL: 'http://88.99.39.233/api/auth/google/callback',
+      callbackURL: 'https://cp.voicedream.space/api/auth/google/callback',
     },
     async (accessToken: string, refreshToken: string, profile, done) => {
       try {
@@ -49,7 +49,7 @@ passport.use(
 );
 
 passport.serializeUser((user: User, done) => {
-  done(null, user.userId);
+  done(null, user.userId);  
 });
 
 passport.deserializeUser(async (userId: string, done) => {

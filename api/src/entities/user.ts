@@ -22,5 +22,4 @@ provider: string;
 
 @Column()
 password?: string;
-
 }

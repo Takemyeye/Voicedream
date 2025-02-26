@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../ormconfig';
 import { User } from '../../entities/user';
+import * as bcrypt from 'bcrypt';
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
     const { username, email, password } = req.body;
@@ -21,12 +22,14 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         user = new User();
         user.username = username || '';
         user.email = email;
         user.avatar = '';
         user.provider = provider;
-        user.password = password;
+        user.password = hashedPassword; 
 
         await userRepository.save(user);
 

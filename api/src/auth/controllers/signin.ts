@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { authenticate } from './authenticate';
+import * as bcrypt from 'bcrypt';
+import { AppDataSource } from '../../ormconfig';
+import { User } from '../../entities/user';
 
-const JWT = process.env.JWT_SECRET
+const JWT = process.env.JWT_SECRET;
 
 export const signin = async (req: Request, res: Response): Promise<void> => {
     const { email, password } = req.body;
@@ -15,19 +17,35 @@ export const signin = async (req: Request, res: Response): Promise<void> => {
     const provider = "VoiceDream";
 
     try {
-        const user = await authenticate(email, provider, password);
+        const userRepository = AppDataSource.getRepository(User);
+        const user = await userRepository.findOne({ where: { email, provider } });
 
-        console.log(user);
+        if(!user?.password) {
+            res.status(404).json({ error: "User not found" })
+            return;
+        }
+        console.log("user: from signIn", user)
+
         if (user) {
-            const token = jwt.sign(
-                { userId: user },
-                 JWT|| '',
-                { expiresIn: '1d' }
-            );
+            const passwordMatch = await bcrypt.compare(password, user.password);
 
-            res.json({ token });
+            console.log("passwordMatch: from signIn", passwordMatch)
+
+            console.log("user.userId: sign in", user.userId);
+
+            if (passwordMatch) {
+                const token = jwt.sign(
+                    { userId: user.userId },
+                    JWT || '',
+                    { expiresIn: '1d' }
+                );
+
+                res.json({ token });
+            } else {
+                res.status(404).json({ error: "Wrong password" });
+            }
         } else {
-            res.status(404).json({ error: "User not found or wrong password" });
+            res.status(404).json({ error: "User not found" });
         }
     } catch (error) {
         res.status(500).json({ error: "Database error" });
