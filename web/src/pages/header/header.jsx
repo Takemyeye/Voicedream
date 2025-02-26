@@ -35,8 +35,8 @@ const Header = () => {
             const response = await fetch("http://localhost:3001/api/current_user", {
                 method: "GET",
                 headers: {
-                    "Authorization": `Bearer ${token}`,
-                }
+                  "Authorization": `Bearer ${token}`,
+                },
             });
 
             if (response.ok) {

@@ -1,35 +1,33 @@
 import { Router } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import { AppDataSource } from '../ormconfig';
+import { verifyTokenAndGetUser } from '../utils/tokenUtils';
 import { User } from '../entities/user';
 
 const router = Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
-
-interface DecodedToken extends JwtPayload {
-  userId: string
-}
 
 router.get('/current_user', async (req, res) => {
-  try {
-    const authHeader = req.headers['authorization'];
+  const token = req.headers.authorization?.split(" ")[1];
+  
+  if (!token) {
+    res.status(401).json({ error: 'Unauthorized current user ' });
+    return;
+  }
 
-    if (!authHeader) {
-        res.status(401).json({ message: 'No token provided' });
+  try {
+    const userId = await verifyTokenAndGetUser(token);
+
+    if (!userId) {
+      res.status(401).json({ message: 'Invalid or expired token' });
       return;
     }
 
-    const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
-
-    const decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
-
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({
-      where: { userId: decoded.userId },
+      where: { userId: userId },
     });
 
     if (!user) {
-        res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'User not found' });
       return;
     }
 

@@ -4,7 +4,7 @@ import { AppDataSource } from '../../ormconfig';
 import { Stories } from "../../entities/stories";
 import { UserStory } from "../../entities/userStory";
 
-export const DashboardData = async (userId: string) => {
+export const DashboardData = async () => {
 
     const userStoriesRepository = AppDataSource.getRepository(UserStory);
     const storiesRepository = AppDataSource.getRepository(Stories);
