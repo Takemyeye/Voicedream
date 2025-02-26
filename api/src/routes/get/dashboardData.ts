@@ -4,7 +4,7 @@ import { AppDataSource } from '../../ormconfig';
 import { Stories } from "../../entities/stories";
 import { UserStory } from "../../entities/userStory";
 
-export const DashboardData = async (useriD: string) => {
+export const DashboardData = async (userId: string) => {
 
     const userStoriesRepository = AppDataSource.getRepository(UserStory);
     const storiesRepository = AppDataSource.getRepository(Stories);
@@ -12,17 +12,16 @@ export const DashboardData = async (useriD: string) => {
     const userRepository = AppDataSource.getRepository(User);
 
     try {
+        const [users, voices, stories, usersStories] = await Promise.all([
+            userRepository.find(),
+            voiceRepository.find(),
+            storiesRepository.find(),
+            userStoriesRepository.find()
+        ]);
 
-        const users = await userRepository.find();
-        const voices = await voiceRepository.find();
-        const stories = await storiesRepository.find();
-        const usersStories = await userStoriesRepository.find();
-
-        console.log("user:", users, "voices:", voices, "stories:", stories, "usersStories:", usersStories);
-
-        return {users, stories, voices, usersStories};
-    } catch(error) {
-        console.error("Error get Admin data:", error);
+        return { users, stories, voices, usersStories };
+    } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+        throw error;
     }
-
-}
+};

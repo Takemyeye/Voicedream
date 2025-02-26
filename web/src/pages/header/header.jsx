@@ -66,6 +66,9 @@ const Header = () => {
                 <div className="user">
                     {user ? (
                         <div className="user">
+                            <div className="balance">
+                                <h5>Balance: {user.credit}</h5>
+                            </div>
                             <img src={user.avatar} alt="User" />
                         </div>
                     ) : (

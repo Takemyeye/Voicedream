@@ -49,3 +49,18 @@ nav > a > h3:hover::after {
     border-radius: 4rem;
     border: 1px solid rgba(255, 255, 255, 0.25);
 }
+
+.user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.balance {
+    padding: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.150);
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.150);
+}
