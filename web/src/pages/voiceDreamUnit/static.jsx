@@ -16,7 +16,7 @@ const Static = () => {
         throw new Error("Token not found");
       }
 
-      const storyResponse = await fetch("cp.voicedream.space/api/getStory", {
+      const storyResponse = await fetch("https://cp.voicedream.space/api/getStory", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -12,7 +12,7 @@ const Voices = () => {
     useEffect(() => {
         const fetchVoices = async () => {
             try {
-                const res = await fetch(`cp.voicedream.space/api/getVoice`, {
+                const res = await fetch(`https://cp.voicedream.space/api/getVoice`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const Voices = () => {
 
     const fetchAndPlayAudio = async (voiceId) => {
         try {
-            const res = await fetch(`cp.voicedream.space/api/getvoice/audio/${voiceId}`, {
+            const res = await fetch(`https://cp.voicedream.space/api/getvoice/audio/${voiceId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
