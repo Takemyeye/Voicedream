@@ -1,7 +1,7 @@
-import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import { execSync } from 'child_process';
 
 export const storyUnite = async (audioBuffers: Buffer[]): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
@@ -24,46 +24,40 @@ export const storyUnite = async (audioBuffers: Buffer[]): Promise<Buffer> => {
     const silenceDuration = 0.3;
     const silenceFilePath = path.join(tempDir, 'silence.mp3');
     
-    ffmpeg()
-      .input('anullsrc=r=44100:cl=stereo')
-      .output(silenceFilePath)
-      .duration(silenceDuration)
-      .on('end', () => {
-        const fileListContent = tempFiles
-          .map((file) => `file '${file}'`)
-          .concat(`file '${silenceFilePath}'`)
-          .join('\n');
+    try {
+      execSync(`ffmpeg -f lavfi -i anullsrc=r=44100:cl=stereo -t ${silenceDuration} -q:a 9 -acodec libmp3lame ${silenceFilePath}`);
+    } catch (error) {
+      console.error('Error creating silence file:', error);
+      return reject(error);
+    }
 
-        fs.writeFileSync(fileListPath, fileListContent);
+    const fileListContent = tempFiles
+      .map((file) => `file '${file}'`)
+      .concat(`file '${silenceFilePath}'`)
+      .join('\n');
 
-        const mergedFilePath = path.join(tempDir, 'merged_audio.mp3');
-        const command = ffmpeg();
+    fs.writeFileSync(fileListPath, fileListContent);
 
-        command.input(fileListPath)
-          .inputOption('-f', 'concat')
-          .inputOption('-safe', '0')
-          .on('error', (err) => {
-            console.error('FFmpeg error:', err);
-            tempFiles.forEach(fs.unlinkSync);
-            fs.unlinkSync(fileListPath);
-            fs.unlinkSync(silenceFilePath);
-            reject(err);
-          })
-          .on('end', () => {
-            console.log('Audio merging completed');
-            const mergedBuffer = fs.readFileSync(mergedFilePath);
+    const mergedFilePath = path.join(tempDir, 'merged_audio.mp3');
 
-            tempFiles.forEach(fs.unlinkSync);
-            fs.unlinkSync(fileListPath);
-            fs.unlinkSync(silenceFilePath);
-            fs.unlinkSync(mergedFilePath);
+    try {
+      execSync(`ffmpeg -f concat -safe 0 -i ${fileListPath} -c:a libmp3lame -q:a 9 ${mergedFilePath}`);
+    } catch (error) {
+      console.error('Error during merging audio files:', error);
+      tempFiles.forEach(fs.unlinkSync);
+      fs.unlinkSync(fileListPath);
+      fs.unlinkSync(silenceFilePath);
+      return reject(error);
+    }
 
-            resolve(mergedBuffer);
-          })
-          .output(mergedFilePath)
-          .format('mp3')
-          .run();
-      })
-      .run();
+    console.log('Audio merging completed');
+    const mergedBuffer = fs.readFileSync(mergedFilePath);
+
+    tempFiles.forEach(fs.unlinkSync);
+    fs.unlinkSync(fileListPath);
+    fs.unlinkSync(silenceFilePath);
+    fs.unlinkSync(mergedFilePath);
+
+    resolve(mergedBuffer);
   });
 };
