@@ -12,8 +12,6 @@ export const verifyTokenAndGetUser = async (token: string) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
     
-    console.log("decoded:", decoded)
-
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({
       where: { userId: decoded.userId },

@@ -27,7 +27,7 @@ const Create = () => {
     };
 
     try {
-      const res = await fetch("https://cp.voicedream.space/api/chat", {
+      const res = await fetch("http://localhost:3001/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

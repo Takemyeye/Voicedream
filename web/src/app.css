@@ -53,6 +53,14 @@ input {
     font-size: 1rem;
 }
 
+.tts {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 300px;
+    gap: 1rem;
+}
+
 .text {
     width: 100%;
     display: flex;

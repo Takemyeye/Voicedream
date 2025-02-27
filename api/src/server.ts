@@ -8,6 +8,7 @@
   import './auth/passportSetup';
 
   // Routes
+  import getVoiceAudio from './repositories/default/voiceAudio';
   import getStoryRoutes from './repositories/default/default';
   import dashboardRoutes from './routes/dashboardAdmin';
   import getComponent from './routes/get/getComponent';
@@ -33,7 +34,7 @@ app.use('/userStory', express.static(path.join(__dirname, 'userStory')));
   app.use(express.urlencoded({ extended: true }));
 
   const corsOptions = {
-    origin: ['https://cp.voicedream.space', 'https://cp.voicedream.space'],
+    origin: ['http://localhost:3000', 'https://cp.voicedream.space'],
     methods: '*',
     allowedHeaders: '*',
     credentials: true
@@ -66,6 +67,7 @@ app.use('/userStory', express.static(path.join(__dirname, 'userStory')));
   });
 
   app.use('/api', getStoryRoutes);
+  app.use('/api', getVoiceAudio);
   app.use('/api', getComponent);
   app.use('/api', currentUser);
   app.use('/api', voiceRoutes);

@@ -24,7 +24,7 @@ router.get('/getStoryUser', async (req, res) => {
          if (stories.length === 0 || !stories) {
             res.status(404).json({ error: 'Story not found' });
             return;
-        }2
+        }
 
     res.json({ stories });
     } catch (error: any) {

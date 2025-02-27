@@ -25,7 +25,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      callbackURL: 'https://cp.voicedream.space/api/auth/google/callback',
+      callbackURL: 'http://localhost:3001/api/auth/google/callback',
     },
     async (accessToken: string, refreshToken: string, profile, done) => {
       try {

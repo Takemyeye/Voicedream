@@ -9,7 +9,6 @@ export const fileVoiceDream = async (userId: string) => {
 
         const userStory = await userStoryRepository.find({ where: { userId } })
 
-        console.log('user story:', userStory);
         return userStory;
     } catch(error) {
         console.error('Error get User Story:', error);

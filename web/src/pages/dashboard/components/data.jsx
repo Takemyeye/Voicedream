@@ -14,7 +14,7 @@ const Datas = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch("https://cp.voicedream.space/api/dashboard", {
+      const response = await fetch("http://localhost:3001/api/dashboard", {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`,
