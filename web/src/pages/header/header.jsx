@@ -72,7 +72,9 @@ const Header = () => {
                             <img src={user.avatar} alt="User" />
                         </div>
                     ) : (
-                        <button onClick={() => window.location = "https://https://cp.voicedream.space/auth"}>Sign In</button>
+                        <Link to="/auth">
+                            <button>Sign In</button>
+                        </Link>
                     )}
                 </div>
             </div>
