@@ -9,7 +9,7 @@ const Stories = () => {
     useEffect(() => {
         const fetchStories = async () => {
             try {
-                const res = await fetch(`http://localhost:3001/api/getStory`, {
+                const res = await fetch(`cp.voicedream.space/api/getStory`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

@@ -9,9 +9,8 @@ voiceId: string;
 voiceName: string = '';
 
 @Column()
-userId: string = '';
+userId: string;
 
 @Column()
 default: boolean = false;
-
 }

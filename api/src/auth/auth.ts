@@ -21,7 +21,7 @@ router.get(
         { expiresIn: '7d' }
       );
 
-      res.redirect(`http://localhost:3000?token=${token}`);
+      res.redirect(`cp.voicedream.space?token=${token}`);
     } else {
       res.status(500).json({ error: 'User not found' });
     }
@@ -32,6 +32,6 @@ router.get(
 router.post('/signin', signin);
 
 // Sign up route
-router.post('/signup', signup);
+//router.post('/signup', signup);
 
 export default router;

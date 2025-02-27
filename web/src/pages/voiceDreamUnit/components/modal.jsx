@@ -14,7 +14,7 @@ const Modal = ({ story, onClose }) => {
         throw new Error("Token not found");
       }
 
-      const voiceResponse = await fetch("http://localhost:3001/api/getVoice", {
+      const voiceResponse = await fetch("cp.voicedream.space/api/getVoice", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ const Modal = ({ story, onClose }) => {
       console.log("Submitting voices:", selectedVoicesData);
 
       if (selectedVoicesData.length > 0) {
-        const response = await fetch("http://localhost:3001/api/ttsScript", {
+        const response = await fetch("cp.voicedream.space/api/ttsScript", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ const Modal = ({ story, onClose }) => {
 
       console.log("Submitting Voice ID to server:", selectedVoiceId);
 
-      const response = await fetch("http://localhost:3001/api/tts", {
+      const response = await fetch("cp.voicedream.space/api/tts", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
