@@ -1,4 +1,10 @@
-  type ParserEntry = {
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const NARATOR = process.env.NARATORE_DEFFAULT || "FC4lzTEy6X4ezRs3sokM";
+
+type ParserEntry = {
     character: string;
     line: string;
   };
@@ -21,7 +27,7 @@
         if (matchingVoice) {
           entry.character = matchingVoice.voiceId;
         } else {
-          entry.character = "Antonio"; 
+          entry.character = NARATOR; 
         }
         return entry;
       });
